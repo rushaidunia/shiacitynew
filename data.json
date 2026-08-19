@@ -8,8 +8,8 @@
           "court": "Court 1",
           "team1": "Azadars",
           "team2": "Ghazis",
-          "s1": 65,
-          "s2": 61
+          "s1": null,
+          "s2": null
         },
         {
           "time": "9:00-10:00 PM",
@@ -678,5 +678,5 @@
       }
     }
   },
-  "exportedAt": "2026-08-19T21:20:53.573Z"
+  "exportedAt": "2026-08-19T21:22:37.689Z"
 }
