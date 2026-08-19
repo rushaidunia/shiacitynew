@@ -8,8 +8,8 @@
           "court": "Court 1",
           "team1": "Azadars",
           "team2": "Ghazis",
-          "s1": 98,
-          "s2": 89
+          "s1": 69,
+          "s2": 42
         },
         {
           "time": "9:00-10:00 PM",
@@ -410,10 +410,10 @@
     "w0_g0": {
       "Azadars": {
         "Ali Zaidi": {
-          "pts": "20",
-          "reb": "20",
-          "stl": "10",
-          "blk": "5",
+          "pts": "1",
+          "reb": "2",
+          "stl": "3",
+          "blk": "4",
           "tpm": "5"
         },
         "Murtaza Hussain": {
@@ -498,5 +498,5 @@
       }
     }
   },
-  "exportedAt": "2026-08-19T04:06:36.519Z"
+  "exportedAt": "2026-08-19T14:25:21.022Z"
 }
