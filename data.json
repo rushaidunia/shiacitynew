@@ -16,8 +16,8 @@
           "court": "Court 2",
           "team1": "Intifada",
           "team2": "House of Hyder",
-          "s1": 44,
-          "s2": 52
+          "s1": null,
+          "s2": null
         },
         {
           "time": "9:00-10:00 PM",
@@ -678,5 +678,5 @@
       }
     }
   },
-  "exportedAt": "2026-08-19T21:23:19.839Z"
+  "exportedAt": "2026-08-19T21:24:38.605Z"
 }
