@@ -11,7 +11,18 @@
 // router, so they only ever load a single time per visit.
 
 (function () {
-    const APP_ROUTES = ['/', '/schedule/', '/stats/', '/photos/', '/previousseasons/'];
+    // Detect the site's base path from this very script's own resolved URL,
+    // so routing works correctly whether the site lives at a domain root
+    // (e.g. https://www.shiacity.online/) or a subfolder
+    // (e.g. https://username.github.io/shiacitynew/) — no hardcoding needed.
+    const scriptEl = document.currentScript;
+    const scriptSrc = scriptEl ? scriptEl.src : '';
+    const BASE_PATH = scriptSrc
+        ? new URL(scriptSrc).pathname.replace(/assets\/js\/router\.js$/, '')
+        : '/';
+
+    const ROUTE_SUFFIXES = ['', 'schedule/', 'stats/', 'photos/', 'previousseasons/'];
+    const APP_ROUTES = ROUTE_SUFFIXES.map(suffix => BASE_PATH + suffix);
 
     function isInternalRoute(pathname) {
         return APP_ROUTES.includes(pathname);

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shia City Season 4 Schedule Hub</title>
     <!-- Tailwind CSS -->
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -29,8 +29,8 @@
     </style>
 </head>
 <body class="bg-[#09090b] text-zinc-100 min-h-screen selection:bg-orange-500 selection:text-white pb-12 flex flex-col justify-between">
-    <script src="/assets/js/historical-data.js"></script>
-    <script src="/assets/js/player-modal.js"></script>
+    <script src="../assets/js/historical-data.js"></script>
+    <script src="../assets/js/player-modal.js"></script>
     <div id="app-content">
 
     <!-- Top Navigation Bar -->
@@ -44,11 +44,11 @@
 
             <!-- Desktop Navigation Links -->
             <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-zinc-400">
-                <a href="/" class="hover:text-zinc-100 transition">Home</a>
-                <a href="/schedule/" class="text-orange-400 font-semibold">Schedule</a>
-                <a href="/stats/" class="hover:text-zinc-100 transition">Stats & Standings</a>
-                <a href="/previousseasons/" class="hover:text-zinc-100 transition">Previous Seasons</a>
-                <a href="/photos/" class="hover:text-zinc-100 transition">Photos</a>
+                <a href="../" class="hover:text-zinc-100 transition">Home</a>
+                <a href="../schedule/" class="text-orange-400 font-semibold">Schedule</a>
+                <a href="../stats/" class="hover:text-zinc-100 transition">Stats & Standings</a>
+                <a href="../previousseasons/" class="hover:text-zinc-100 transition">Previous Seasons</a>
+                <a href="../photos/" class="hover:text-zinc-100 transition">Photos</a>
             </nav>
 
             <!-- Mobile Hamburger Button -->
@@ -61,11 +61,11 @@
 
         <!-- Mobile Dropdown Menu -->
         <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 pt-2 border-t border-zinc-800/80 bg-[#09090b]/95 backdrop-blur-xl flex flex-col space-y-3 text-xs font-medium text-zinc-400">
-            <a href="/" class="hover:text-zinc-100 transition py-1">Home</a>
-            <a href="/schedule/" class="text-orange-400 font-semibold py-1">Schedule</a>
-            <a href="/stats/" class="hover:text-zinc-100 transition py-1">Stats & Standings</a>
-            <a href="/previousseasons/" class="hover:text-zinc-100 transition py-1">Previous Seasons</a>
-            <a href="/photos/" class="hover:text-zinc-100 transition py-1">Photos</a>
+            <a href="../" class="hover:text-zinc-100 transition py-1">Home</a>
+            <a href="../schedule/" class="text-orange-400 font-semibold py-1">Schedule</a>
+            <a href="../stats/" class="hover:text-zinc-100 transition py-1">Stats & Standings</a>
+            <a href="../previousseasons/" class="hover:text-zinc-100 transition py-1">Previous Seasons</a>
+            <a href="../photos/" class="hover:text-zinc-100 transition py-1">Photos</a>
         </div>
     </header>
 
@@ -359,7 +359,7 @@
             }
 
             try {
-                const res = await fetch(`/data.json?t=${Date.now()}`, { cache: 'no-store' });
+                const res = await fetch(`../data.json?t=${Date.now()}`, { cache: 'no-store' });
                 if (res.ok) {
                     const json = await res.json();
                     __cachedSchedule = json.schedule ? cleanScheduleScores(json.schedule) : null;
@@ -725,6 +725,6 @@
 })();
 </script>
     </div>
-    <script src="/assets/js/router.js" defer></script>
+    <script src="../assets/js/router.js" defer></script>
 </body>
 </html>
