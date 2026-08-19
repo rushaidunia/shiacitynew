@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="color-scheme" content="dark">
+    <meta name="view-transition" content="same-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shia City Basketball - Previous Seasons</title>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: linear-gradient(to bottom, #09090b, #0d090f, #130a17);
+            background-attachment: fixed;
+        }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.25; transform: scale(1); }
+            50% { opacity: 0.45; transform: scale(1.03); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 min-h-screen selection:bg-orange-500 selection:text-white pb-16 flex flex-col justify-between">
+    <script src="/assets/js/historical-data.js"></script>
+    <script src="/assets/js/player-modal.js"></script>
+    <div id="app-content">
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-zinc-800/80 sticky top-0 z-30 bg-[#09090b]/85 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 font-black text-xs shadow-lg shadow-orange-500/20">SC</div>
+                <span class="text-xs font-bold tracking-wider text-zinc-200 uppercase">Shia City <span class="text-orange-400 font-extrabold">Basketball</span></span>
+            </div>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-zinc-400">
+                <a href="/" class="hover:text-zinc-100 transition">Home</a>
+                <a href="/schedule/" class="hover:text-zinc-100 transition">Schedule</a>
+                <a href="/stats/" class="hover:text-zinc-100 transition">Stats & Standings</a>
+                <a href="/previousseasons/" class="text-orange-400 font-semibold">Previous Seasons</a>
+                <a href="/photos/" class="hover:text-zinc-100 transition">Photos</a>
+            </nav>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-zinc-300 hover:text-white focus:outline-none p-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 pt-2 border-t border-zinc-800/80 bg-[#09090b]/95 backdrop-blur-xl flex flex-col space-y-3 text-xs font-medium text-zinc-400">
+            <a href="/" class="hover:text-zinc-100 transition py-1">Home</a>
+            <a href="/schedule/" class="hover:text-zinc-100 transition py-1">Schedule</a>
+            <a href="/stats/" class="hover:text-zinc-100 transition py-1">Stats & Standings</a>
+            <a href="/previousseasons/" class="text-orange-400 font-semibold py-1">Previous Seasons</a>
+            <a href="/photos/" class="hover:text-zinc-100 transition py-1">Photos</a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl w-full mx-auto px-4 mt-8 flex flex-col gap-6">
+
+        <!-- Page Header & Season Selector -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
+            <div>
+                <h1 id="page-title" class="text-xl font-extrabold tracking-tight text-zinc-100">Previous Seasons Archive</h1>
+                <p id="page-subtitle" class="text-xs text-zinc-400 mt-0.5">Explore standings, player leaderboards, and team stats from past seasons. <span class="text-orange-400 font-semibold">Click any player's name to view their career stats.</span></p>
+
+            </div>
+            
+            <!-- Season Selector Tabs -->
+            <div class="flex bg-zinc-900 border border-zinc-800/80 p-1 rounded-xl gap-1 shadow-inner">
+                <button onclick="switchSeason('s3')" id="btn-season-3" class="px-4 py-1.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-white">Season 3</button>
+                <button onclick="switchSeason('s2')" id="btn-season-2" class="px-4 py-1.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-white">Season 2</button>
+                <button onclick="switchSeason('s1')" id="btn-season-1" class="px-4 py-1.5 rounded-lg text-xs font-semibold transition bg-orange-500 text-white shadow-sm">Season 1</button>
+            </div>
+        </div>
+
+        <!-- Sub-Navigation Tabs (Standings / Leaders / Rosters) -->
+        <div class="flex justify-between items-center gap-1 bg-zinc-900/60 border border-zinc-800/80 p-2 rounded-xl backdrop-blur-md overflow-x-auto">
+            <div class="flex gap-1 shrink-0">
+                <button onclick="switchSubTab('standings')" id="subbtn-standings" class="px-2.5 sm:px-3.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition text-zinc-400 hover:text-white whitespace-nowrap">Standings</button>
+                <button onclick="switchSubTab('leaders')" id="subbtn-leaders" class="px-2.5 sm:px-3.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition text-zinc-400 hover:text-white whitespace-nowrap">Leaderboards</button>
+                <button onclick="switchSubTab('players')" id="subbtn-players" class="px-2.5 sm:px-3.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold transition bg-zinc-800 text-zinc-100 shadow-sm whitespace-nowrap">
+                    <span class="sm:hidden">Stats</span>
+                    <span class="hidden sm:inline">Team Rosters & Stats</span>
+                </button>
+            </div>
+            <div id="season-badge" class="bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[10px] sm:text-[11px] px-2.5 sm:px-3 py-1 rounded-lg font-bold shrink-0 whitespace-nowrap">
+                Season 1 Archive
+            </div>
+        </div>
+
+        <!-- TAB 1: STANDINGS -->
+        <div id="tab-standings" class="subtab-content hidden flex flex-col gap-4">
+            <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md">
+                <div class="p-4 border-b border-zinc-800/60 bg-zinc-900/20">
+                    <h2 class="text-xs font-bold text-zinc-300 uppercase tracking-wider flex items-center gap-2"><span>📊</span> Final Regular Season Standings</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-zinc-950/40 text-zinc-400 border-b border-zinc-800/60 text-[11px] uppercase tracking-wider font-semibold">
+                                <th class="p-3 text-center w-12">Rk</th>
+                                <th class="p-3">Team Name</th>
+                                <th class="p-3 text-center">Record</th>
+                                <th class="p-3 text-center">PCT</th>
+                                <th class="p-3 text-center">Point Diff</th>
+                                <th class="p-3 text-center">Total Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="standings-table-body" class="divide-y divide-zinc-800/40 font-mono text-zinc-300">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: LEADERBOARDS -->
+        <div id="tab-leaders" class="subtab-content hidden flex flex-col gap-5">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xs font-bold text-zinc-300 uppercase tracking-wider flex items-center gap-2"><span>🔥</span> Top 10 Player Leaderboards</h2>
+                <div class="flex gap-2">
+                    <select id="leaderboard-stat-select" onchange="renderLeaderboards(this.value)" class="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-zinc-200 focus:outline-none focus:border-zinc-700 transition cursor-pointer font-medium shadow-inner">
+                        <option value="ppg">Points Per Game (PPG)</option>
+                        <option value="reb">Rebounds Per Game (REB)</option>
+                        <option value="stlblk">STK (Steals + Blocks)</option>
+                        <option value="tpm">3-Pointers Made (3PM)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-zinc-950/40 text-zinc-400 border-b border-zinc-800/60 text-[11px] uppercase tracking-wider font-semibold">
+                                <th class="p-3 text-center w-16">Rank</th>
+                                <th class="p-3">Player Name</th>
+                                <th class="p-3">Team</th>
+                                <th id="leaderboard-stat-header" class="p-3 text-right pr-6 font-mono">PPG</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-table-body" class="divide-y divide-zinc-800/40">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: TEAM ROSTERS & STATS -->
+        <div id="tab-players" class="subtab-content flex flex-col gap-5">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-3 bg-zinc-900 border border-zinc-800/80 rounded-2xl p-3.5 shadow-xl backdrop-blur-md">
+                <div class="relative w-full md:w-72">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-zinc-500 text-xs">🔍</span>
+                    <input type="text" id="filter-player-input" oninput="renderTeamRosters()" placeholder="Search player..." 
+                        class="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-9 pr-4 py-2 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-700 transition">
+                </div>
+                
+                <div class="flex items-center justify-between md:justify-end gap-3 w-full md:w-auto">
+                    <div class="flex items-center gap-2">
+                        <select id="filter-team-select" onchange="renderTeamRosters()" class="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-300 focus:outline-none focus:border-zinc-700 transition cursor-pointer md:w-48 font-medium">
+                            <option value="ALL">All Teams</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="team-rosters-container" class="flex flex-col gap-5">
+                <!-- Injected dynamically -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-zinc-600 mt-12 border-t border-zinc-900/80 pt-6 font-medium">
+        © 2026 Shia City Basketball
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+(function() {
+
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+    
+})();
+</script>
+
+    <!-- Shared career-stats data (also used by stats.html) -->
+
+    <script>
+(function() {
+    window.renderLeaderboards = renderLeaderboards;
+    window.renderTeamRosters = renderTeamRosters;
+    window.switchSeason = switchSeason;
+    window.switchSubTab = switchSubTab;
+
+        // historicalData is defined in historical-data.js, loaded above.
+
+        let currentSeason = 's1';
+        let currentSubTab = 'players';
+
+        function switchSeason(seasonKey) {
+            currentSeason = seasonKey;
+            ['s3', 's2', 's1'].forEach(s => {
+                const btn = document.getElementById(`btn-season-${s === 's3' ? '3' : s === 's2' ? '2' : '1'}`);
+                if (btn) {
+                    if (s === seasonKey) {
+                        btn.className = "px-4 py-1.5 rounded-lg text-xs font-semibold transition bg-orange-500 text-white shadow-sm";
+                    } else {
+                        btn.className = "px-4 py-1.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-white";
+                    }
+                }
+            });
+
+            document.getElementById('season-badge').innerText = `Season ${seasonKey === 's3' ? '3' : seasonKey === 's2' ? '2' : '1'} Archive`;
+            refreshView();
+        }
+
+        function switchSubTab(subTabId) {
+            currentSubTab = subTabId;
+            document.querySelectorAll('.subtab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${subTabId}`).classList.remove('hidden');
+
+            ['standings', 'leaders', 'players'].forEach(t => {
+                const btn = document.getElementById(`subbtn-${t}`);
+                if (btn) {
+                    if (t === subTabId) {
+                        btn.className = "px-2.5 sm:px-3.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold transition bg-zinc-800 text-zinc-100 shadow-sm whitespace-nowrap";
+                    } else {
+                        btn.className = "px-2.5 sm:px-3.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition text-zinc-400 hover:text-white whitespace-nowrap";
+                    }
+                }
+            });
+
+            refreshView();
+        }
+
+        function refreshView() {
+            if (currentSubTab === 'standings') {
+                renderStandings();
+            } else if (currentSubTab === 'leaders') {
+                renderLeaderboards(document.getElementById('leaderboard-stat-select').value);
+            } else if (currentSubTab === 'players') {
+                initTeamRostersView();
+            }
+        }
+
+        function calculatePct(recordStr) {
+            const parts = recordStr.split('-');
+            const wins = parseInt(parts[0], 10);
+            const losses = parseInt(parts[1], 10);
+            const total = wins + losses;
+            if (total === 0) return ".000";
+            const pct = wins / total;
+            return pct === 1 ? "1.000" : pct.toFixed(3).replace(/^0/, '');
+        }
+
+        function renderStandings() {
+            const seasonObj = historicalData[currentSeason];
+            const data = seasonObj.standings;
+            const champTeam = seasonObj.champion.toLowerCase();
+            const runnerUpTeam = seasonObj.runnerUp.toLowerCase();
+            const tbody = document.getElementById('standings-table-body');
+            tbody.innerHTML = '';
+
+            data.forEach((team) => {
+                const teamLower = team.team.toLowerCase();
+                const isChamp = teamLower === champTeam;
+                const isRunnerUp = teamLower === runnerUpTeam;
+                const diffStr = team.diff > 0 ? `+${team.diff}` : team.diff;
+                const pctStr = calculatePct(team.record);
+                let row = document.createElement('tr');
+                
+                if (isChamp) {
+                    row.className = "bg-emerald-950/30 border-l-4 border-emerald-500 font-semibold text-zinc-100 hover:bg-emerald-900/30 transition-colors";
+                } else if (isRunnerUp) {
+                    row.className = "bg-sky-950/30 border-l-4 border-sky-500 font-semibold text-zinc-100 hover:bg-sky-900/30 transition-colors";
+                } else {
+                    row.className = "hover:bg-zinc-800/30 transition-colors text-zinc-300";
+                }
+
+                row.innerHTML = `
+                    <td class="p-3 text-center text-zinc-400 font-semibold">${team.rank}</td>
+                    <td class="p-3 font-bold flex items-center gap-2">
+                        <span>${team.team}</span>
+                        ${isChamp ? '<span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] px-2 py-0.5 rounded-md font-extrabold uppercase tracking-wider">Champs</span>' : ''}
+                        ${isRunnerUp ? '<span class="bg-sky-500/20 text-sky-400 border border-sky-500/30 text-[10px] px-2 py-0.5 rounded-md font-extrabold uppercase tracking-wider">Runner Up</span>' : ''}
+                    </td>
+                    <td class="p-3 text-center font-semibold">${team.record}</td>
+                    <td class="p-3 text-center font-semibold text-zinc-400">${pctStr}</td>
+                    <td class="p-3 text-center font-bold ${team.diff >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${diffStr}</td>
+                    <td class="p-3 text-center font-semibold">${team.pts}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderLeaderboards(statKey) {
+            const statTitles = { ppg: 'PPG', reb: 'REB', stlblk: 'STK', tpm: '3PM' };
+            document.getElementById('leaderboard-stat-header').innerText = statTitles[statKey];
+
+            const top10 = historicalData[currentSeason].leaders[statKey];
+
+            const tbody = document.getElementById('leaderboard-table-body');
+            tbody.innerHTML = '';
+
+            top10.forEach((player, idx) => {
+                let row = document.createElement('tr');
+                row.className = "hover:bg-zinc-800/30 transition-colors";
+                
+                let medalBadge = '';
+                if (idx === 0) medalBadge = '👑 ';
+                else if (idx === 1) medalBadge = '🥈 ';
+                else if (idx === 2) medalBadge = '🥉 ';
+
+                const formattedVal = Number(player.val).toFixed(1);
+
+                row.innerHTML = `
+                    <td class="p-3 text-center font-mono font-semibold text-zinc-500">${idx + 1}</td>
+                    <td class="p-3 font-bold text-zinc-200">
+                        ${medalBadge}<span onclick="openPlayerModal('${player.name.replace(/'/g, "\\'")}')" class="text-zinc-100 hover:text-orange-400 hover:underline cursor-pointer transition">${player.name}</span>
+                    </td>
+                    <td class="p-3 text-zinc-400 text-xs">${player.team}</td>
+                    <td class="p-3 text-right pr-6 font-mono font-bold text-zinc-200 text-sm">${formattedVal}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function initTeamRostersView() {
+            const select = document.getElementById('filter-team-select');
+            select.innerHTML = '<option value="ALL">All Teams</option>';
+            historicalData[currentSeason].teams.forEach(team => {
+                let opt = document.createElement('option');
+                opt.value = team.teamName;
+                opt.innerText = team.teamName;
+                select.appendChild(opt);
+            });
+            renderTeamRosters();
+        }
+
+        function renderTeamRosters() {
+            const selectedTeam = document.getElementById('filter-team-select').value;
+            const searchQuery = document.getElementById('filter-player-input').value.toLowerCase().trim();
+
+            const container = document.getElementById('team-rosters-container');
+            container.innerHTML = '';
+
+            let filteredTeams = historicalData[currentSeason].teams.filter(team => selectedTeam === 'ALL' || team.teamName === selectedTeam);
+
+            filteredTeams.forEach(team => {
+                let filteredPlayers = team.players.filter(player => !searchQuery || player.name.toLowerCase().includes(searchQuery));
+
+                if (filteredPlayers.length === 0) return;
+
+                let teamCard = document.createElement('div');
+                teamCard.className = "bg-zinc-900/40 border border-zinc-800/60 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md";
+                
+                let playerRowsHtml = '';
+                filteredPlayers.forEach(p => {
+                    let cleanName = p.name.replace(' Captain', '');
+                    let isCap = p.name.includes('Captain');
+                    
+                    let nameDisplay = `<span onclick="openPlayerModal('${cleanName.replace(/'/g, "\\'")}')" class="text-zinc-100 hover:text-orange-400 hover:underline cursor-pointer transition font-bold">${cleanName}</span>`;
+                    if (isCap) {
+                        nameDisplay += `<span class="bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[10px] px-1.5 py-0.5 rounded font-bold ml-1.5">Captain</span>`;
+                    }
+
+                    const formatStat = (val) => (val !== undefined && val !== null && val !== '-') ? Number(val).toFixed(1) : (val === '-' ? '-' : '0.0');
+
+                    playerRowsHtml += `
+                        <tr class="hover:bg-zinc-800/30 transition-colors">
+                            <td class="py-3 px-4 font-semibold text-zinc-200 w-2/5">${nameDisplay}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-400 text-xs w-[10%]" align="center">${p.gp}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-300 text-xs w-[10%]" align="center">${formatStat(p.ppg)}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-300 text-xs w-[10%]" align="center">${formatStat(p.reb)}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-300 text-xs w-[10%]" align="center">${formatStat(p.stl)}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-300 text-xs w-[10%]" align="center">${formatStat(p.blk)}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-300 text-xs pr-4 w-[10%]" align="center">${formatStat(p.tpm)}</td>
+                        </tr>
+                    `;
+                });
+
+                teamCard.innerHTML = `
+                    <div class="py-3 px-4 border-b border-zinc-800/60 flex justify-between items-center bg-zinc-900/20">
+                        <h3 class="text-xs font-bold text-zinc-200 tracking-wide">${team.teamName}</h3>
+                        <span class="text-[11px] font-mono text-zinc-400">Roster Stats</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs table-fixed">
+                            <thead>
+                                <tr class="bg-zinc-950/40 text-zinc-500 border-b border-zinc-800/60 text-[11px] uppercase tracking-wider font-semibold">
+                                    <th class="py-2.5 px-4 w-2/5">Player Name</th>
+                                    <th class="py-2.5 px-2 text-center w-[10%]" align="center">GP</th>
+                                    <th class="py-2.5 px-2 text-center w-[10%]" align="center">PPG</th>
+                                    <th class="py-2.5 px-2 text-center w-[10%]" align="center">REB</th>
+                                    <th class="py-2.5 px-2 text-center w-[10%]" align="center">STL</th>
+                                    <th class="py-2.5 px-2 text-center w-[10%]" align="center">BLK</th>
+                                    <th class="py-2.5 px-2 text-center pr-4 w-[10%]" align="center">3PM</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-800/30">
+                                ${playerRowsHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.appendChild(teamCard);
+            });
+        }
+
+        // Player Career Stats Modal is now provided by the shared player-modal.js
+        // (openPlayerModal / closePlayerModal), loaded below.
+
+        // Initialize view to Season 1 Rosters
+        switchSeason('s1');
+        switchSubTab('players');
+    
+})();
+</script>
+
+    <!-- Shared "Player Career Stats" popup logic (also used by stats.html) -->
+    </div>
+    <script src="/assets/js/router.js" defer></script>
+</body>
+</html>

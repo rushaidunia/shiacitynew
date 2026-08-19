@@ -1,0 +1,502 @@
+{
+  "schedule": [
+    {
+      "date": "August 28, 2026",
+      "games": [
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 1",
+          "team1": "Azadars",
+          "team2": "Ghazis",
+          "s1": 50,
+          "s2": 5
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 2",
+          "team1": "Intifada",
+          "team2": "House of Hyder",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "bWood",
+          "team2": "The Resistance",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 1",
+          "team1": "313 Wolves",
+          "team2": "Jabal",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 2",
+          "team1": "Benchwarmers",
+          "team2": "Unc Time",
+          "s1": null,
+          "s2": null
+        }
+      ]
+    },
+    {
+      "date": "September 4, 2026",
+      "games": [
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 1",
+          "team1": "313 Wolves",
+          "team2": "Ghazis",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 2",
+          "team1": "bWood",
+          "team2": "Azadars",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "Jabal",
+          "team2": "House of Hyder",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 1",
+          "team1": "The Resistance",
+          "team2": "Unc Time",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 2",
+          "team1": "Intifada",
+          "team2": "Benchwarmers",
+          "s1": null,
+          "s2": null
+        }
+      ]
+    },
+    {
+      "date": "September 11, 2026",
+      "games": [
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 1",
+          "team1": "bWood",
+          "team2": "Benchwarmers",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 2",
+          "team1": "The Resistance",
+          "team2": "313 Wolves",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "Ghazis",
+          "team2": "House of Hyder",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 1",
+          "team1": "Intifada",
+          "team2": "Azadars",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 2",
+          "team1": "Jabal",
+          "team2": "Unc Time",
+          "s1": null,
+          "s2": null
+        }
+      ]
+    },
+    {
+      "date": "September 18, 2026",
+      "games": [
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 1",
+          "team1": "Jabal",
+          "team2": "Azadars",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 2",
+          "team1": "Intifada",
+          "team2": "313 Wolves",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "The Resistance",
+          "team2": "Benchwarmers",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 1",
+          "team1": "bWood",
+          "team2": "House of Hyder",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 2",
+          "team1": "Ghazis",
+          "team2": "Unc Time",
+          "s1": null,
+          "s2": null
+        }
+      ]
+    },
+    {
+      "date": "September 25, 2026",
+      "games": [
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 1",
+          "team1": "Jabal",
+          "team2": "Benchwarmers",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 2",
+          "team1": "bWood",
+          "team2": "Intifada",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "313 Wolves",
+          "team2": "Azadars",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 1",
+          "team1": "House of Hyder",
+          "team2": "Unc Time",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 2",
+          "team1": "The Resistance",
+          "team2": "Ghazis",
+          "s1": null,
+          "s2": null
+        }
+      ]
+    },
+    {
+      "date": "October 2, 2026",
+      "games": [
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 1",
+          "team1": "Benchwarmers",
+          "team2": "Ghazis",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 2",
+          "team1": "The Resistance",
+          "team2": "Jabal",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "bWood",
+          "team2": "313 Wolves",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 1",
+          "team1": "Intifada",
+          "team2": "Unc Time",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 2",
+          "team1": "Azadars",
+          "team2": "House of Hyder",
+          "s1": null,
+          "s2": null
+        }
+      ]
+    },
+    {
+      "date": "October 9, 2026",
+      "games": [
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 1",
+          "team1": "Intifada",
+          "team2": "The Resistance",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 2",
+          "team1": "Jabal",
+          "team2": "Ghazis",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "Azadars",
+          "team2": "Benchwarmers",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 1",
+          "team1": "bWood",
+          "team2": "Unc Time",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 2",
+          "team1": "313 Wolves",
+          "team2": "House of Hyder",
+          "s1": null,
+          "s2": null
+        }
+      ]
+    },
+    {
+      "date": "October 16, 2026",
+      "games": [
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 1",
+          "team1": "bWood",
+          "team2": "Ghazis",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 2",
+          "team1": "313 Wolves",
+          "team2": "Benchwarmers",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "Intifada",
+          "team2": "Jabal",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 1",
+          "team1": "The Resistance",
+          "team2": "House of Hyder",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 2",
+          "team1": "Azadars",
+          "team2": "Unc Time",
+          "s1": null,
+          "s2": null
+        }
+      ]
+    },
+    {
+      "date": "October 30, 2026",
+      "games": [
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 1",
+          "team1": "Benchwarmers",
+          "team2": "House of Hyder",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 2",
+          "team1": "The Resistance",
+          "team2": "Azadars",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "Intifada",
+          "team2": "Ghazis",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 1",
+          "team1": "313 Wolves",
+          "team2": "Unc Time",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 2",
+          "team1": "bWood",
+          "team2": "Jabal",
+          "s1": null,
+          "s2": null
+        }
+      ]
+    }
+  ],
+  "boxScores": {
+    "w0_g0": {
+      "Azadars": {
+        "Ali Zaidi": {
+          "pts": "10",
+          "reb": "9",
+          "stl": "8",
+          "blk": "7",
+          "tpm": "6"
+        },
+        "Murtaza Hussain": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        },
+        "Hashim Shah": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        },
+        "Hassan Mujtaba Kazmi": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        },
+        "Hani Zahid": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        },
+        "Abbas Khan": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        }
+      },
+      "Ghazis": {
+        "Syed Daniyal": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        },
+        "Abbas Aslam": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        },
+        "Syed Ale Hassan": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        },
+        "Zulfiqar Hussain": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        },
+        "Irtaza Hassan": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        },
+        "Ali Asghar Rizvi": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        }
+      }
+    }
+  },
+  "exportedAt": "2026-08-18T06:11:00.534Z"
+}

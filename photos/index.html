@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="color-scheme" content="dark">
+    <meta name="view-transition" content="same-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shia City Basketball - Photos</title>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: linear-gradient(to bottom, #09090b, #0d090f, #130a17);
+            background-attachment: fixed;
+        }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+ 
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.25; transform: scale(1); }
+            50% { opacity: 0.45; transform: scale(1.03); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 min-h-screen selection:bg-orange-500 selection:text-white pb-16 flex flex-col justify-between">
+    <script src="/assets/js/historical-data.js"></script>
+    <script src="/assets/js/player-modal.js"></script>
+    <div id="app-content">
+ 
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-zinc-800/80 sticky top-0 z-30 bg-[#09090b]/85 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 font-black text-xs shadow-lg shadow-orange-500/20">SC</div>
+                <span class="text-xs font-bold tracking-wider text-zinc-200 uppercase">Shia City <span class="text-orange-400 font-extrabold">Basketball</span></span>
+            </div>
+ 
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-zinc-400">
+                <a href="/" class="hover:text-zinc-100 transition">Home</a>
+                <a href="/schedule/" class="hover:text-zinc-100 transition">Schedule</a>
+                <a href="/stats/" class="hover:text-zinc-100 transition">Stats & Standings</a>
+                <a href="/previousseasons/" class="hover:text-zinc-100 transition">Previous Seasons</a>
+                <a href="/photos/" class="text-orange-400 font-semibold">Photos</a>
+            </nav>
+ 
+            <!-- Mobile Hamburger Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-zinc-300 hover:text-white focus:outline-none p-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+ 
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 pt-2 border-t border-zinc-800/80 bg-[#09090b]/95 backdrop-blur-xl flex flex-col space-y-3 text-xs font-medium text-zinc-400">
+            <a href="/" class="hover:text-zinc-100 transition py-1">Home</a>
+            <a href="/schedule/" class="hover:text-zinc-100 transition py-1">Schedule</a>
+            <a href="/stats/" class="hover:text-zinc-100 transition py-1">Stats & Standings</a>
+            <a href="/previousseasons/" class="hover:text-zinc-100 transition py-1">Previous Seasons</a>
+            <a href="/photos/" class="text-orange-400 font-semibold py-1">Photos</a>
+        </div>
+    </header>
+ 
+    <main class="max-w-6xl w-full mx-auto px-4 mt-8 flex flex-col gap-6">
+ 
+        <!-- Page Header & Tab Navigation -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
+            <div>
+                <h1 class="text-xl font-extrabold tracking-tight text-zinc-100">League Photo Galleries</h1>
+                <p class="text-xs text-zinc-400 mt-0.5">Explore high-resolution event albums from past seasons and special tournaments.</p>
+            </div>
+            
+            <!-- Sleek Modern Tabs -->
+            <div class="flex bg-zinc-900 border border-zinc-800/80 p-1 rounded-xl gap-1 shadow-inner">
+                <button onclick="switchPhotoTab('seasons')" id="btn-seasons" class="px-4 py-1.5 rounded-lg text-xs font-semibold transition bg-orange-500 text-white shadow-sm">Seasons</button>
+                <button onclick="switchPhotoTab('tournaments')" id="btn-tournaments" class="px-4 py-1.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-white">Tournaments</button>
+            </div>
+        </div>
+ 
+        <!-- TAB 1: SEASONS -->
+        <div id="tab-seasons" class="photo-tab-content flex flex-col gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                
+                <!-- Season 3 Card -->
+                <a href="https://zfilms.pixieset.com/shiacityseason3/" target="_blank" rel="noopener noreferrer" class="group bg-zinc-900/40 border border-zinc-800/60 hover:border-orange-500/50 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/10 backdrop-blur-md">
+                    <div class="relative h-48 w-full overflow-hidden bg-zinc-950">
+                        <img src="/assets/images/season3.jpg" alt="Season 3" loading="lazy" class="w-full h-full object-cover object-[center_40%] group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 bg-orange-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-md tracking-wider uppercase shadow-md">Season 3</span>
+                    </div>
+                    <div class="p-5 flex flex-col gap-3 flex-grow justify-between">
+                        <div>
+                            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-orange-400 transition-colors">Season 3 Gallery</h3>
+                            <p class="text-xs text-zinc-400 leading-relaxed mt-1">Official game action, playoff highlights, and team photos from Season 3.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-orange-400 group-hover:translate-x-1 transition-transform pt-2">
+                            <span>View Gallery</span>
+                            <span>&rarr;</span>
+                        </div>
+                    </div>
+                </a>
+ 
+                <!-- Season 2 Card -->
+                <a href="https://zfilms.pixieset.com/shiacityseason2/" target="_blank" rel="noopener noreferrer" class="group bg-zinc-900/40 border border-zinc-800/60 hover:border-orange-500/50 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/10 backdrop-blur-md">
+                    <div class="relative h-48 w-full overflow-hidden bg-zinc-950">
+                        <img src="/assets/images/season2.jpg" alt="Season 2" loading="lazy" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 bg-zinc-800 text-zinc-200 border border-zinc-700 text-[10px] font-bold px-2.5 py-1 rounded-md tracking-wider uppercase shadow-md">Season 2</span>
+                    </div>
+                    <div class="p-5 flex flex-col gap-3 flex-grow justify-between">
+                        <div>
+                            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-orange-400 transition-colors">Season 2 Gallery</h3>
+                            <p class="text-xs text-zinc-400 leading-relaxed mt-1">Relive the competitive moments, championship games, and memorable finishes from Season 2.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-orange-400 group-hover:translate-x-1 transition-transform pt-2">
+                            <span>View Gallery</span>
+                            <span>&rarr;</span>
+                        </div>
+                    </div>
+                </a>
+ 
+                <!-- Season 1 Card -->
+                <a href="https://zfilms.pixieset.com/shiacity/" target="_blank" rel="noopener noreferrer" class="group bg-zinc-900/40 border border-zinc-800/60 hover:border-orange-500/50 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/10 backdrop-blur-md">
+                    <div class="relative h-48 w-full overflow-hidden bg-zinc-950">
+                        <img src="/assets/images/season1.jpg" alt="Season 1" loading="lazy" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 bg-zinc-800 text-zinc-200 border border-zinc-700 text-[10px] font-bold px-2.5 py-1 rounded-md tracking-wider uppercase shadow-md">Season 1</span>
+                    </div>
+                    <div class="p-5 flex flex-col gap-3 flex-grow justify-between">
+                        <div>
+                            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-orange-400 transition-colors">Season 1 Gallery</h3>
+                            <p class="text-xs text-zinc-400 leading-relaxed mt-1">Where it all started—historical match albums and inaugural league galleries.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-orange-400 group-hover:translate-x-1 transition-transform pt-2">
+                            <span>View Gallery</span>
+                            <span>&rarr;</span>
+                        </div>
+                    </div>
+                </a>
+ 
+            </div>
+        </div>
+ 
+        <!-- TAB 2: TOURNAMENTS -->
+        <div id="tab-tournaments" class="photo-tab-content hidden flex flex-col gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                
+                <!-- Brooklyn 2025 Tournament Card -->
+                <a href="https://zfilms.pixieset.com/scf00325/" target="_blank" rel="noopener noreferrer" class="group bg-zinc-900/40 border border-zinc-800/60 hover:border-orange-500/50 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/10 backdrop-blur-md">
+                    <div class="relative h-56 w-full overflow-hidden bg-zinc-950">
+                        <img src="/assets/images/brooklyn.jpg" alt="Brooklyn 2025 Tournament" loading="lazy" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 bg-orange-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-md tracking-wider uppercase shadow-md">Tournament 3</span>
+                    </div>
+                    <div class="p-5 flex flex-col gap-3 flex-grow justify-between">
+                        <div>
+                            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-orange-400 transition-colors">Brooklyn 2025 Tournament</h3>
+                            <p class="text-xs text-zinc-400 leading-relaxed mt-1">Action shots and highlights from the Brooklyn tournament special event.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-orange-400 group-hover:translate-x-1 transition-transform pt-2">
+                            <span>View Gallery</span>
+                            <span>&rarr;</span>
+                        </div>
+                    </div>
+                </a>
+ 
+                <!-- Ramadan 2024 Tournament Card -->
+                <a href="https://zfilms.pixieset.com/shiacityramadantournament24/" target="_blank" rel="noopener noreferrer" class="group bg-zinc-900/40 border border-zinc-800/60 hover:border-orange-500/50 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/10 backdrop-blur-md">
+                    <div class="relative h-56 w-full overflow-hidden bg-zinc-950">
+                        <img src="/assets/images/ramadhan.jpg" alt="Ramadan 2024 Tournament" loading="lazy" class="w-full h-full object-cover object-[center_65%] group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 bg-zinc-800 text-zinc-200 border border-zinc-700 text-[10px] font-bold px-2.5 py-1 rounded-md tracking-wider uppercase shadow-md">Tournament 2</span>
+                    </div>
+                    <div class="p-5 flex flex-col gap-3 flex-grow justify-between">
+                        <div>
+                            <h3 class="text-sm font-bold text-zinc-100 group-hover:text-orange-400 transition-colors">Ramadan 2024 Tournament</h3>
+                            <p class="text-xs text-zinc-400 leading-relaxed mt-1">Memorable evening games, community turnout, and highlights from the Ramadan 2024 bracket.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-orange-400 group-hover:translate-x-1 transition-transform pt-2">
+                            <span>View Gallery</span>
+                            <span>&rarr;</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Winter 2023 Tournament Card (no gallery yet) -->
+                <div class="group bg-zinc-900/40 border border-zinc-800/60 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 backdrop-blur-md">
+                    <div class="relative h-56 w-full overflow-hidden bg-zinc-950">
+                        <img src="/assets/images/winter.jpg" alt="Winter 2023 Tournament" loading="lazy" class="w-full h-full object-cover object-center opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent"></div>
+                        <span class="absolute bottom-3 left-3 bg-zinc-800 text-zinc-200 border border-zinc-700 text-[10px] font-bold px-2.5 py-1 rounded-md tracking-wider uppercase shadow-md">Tournament 1</span>
+                    </div>
+                    <div class="p-5 flex flex-col gap-3 flex-grow justify-between">
+                        <div>
+                            <h3 class="text-sm font-bold text-zinc-100">Winter 2023 Tournament</h3>
+                            <p class="text-xs text-zinc-400 leading-relaxed mt-1">The league's very first tournament, held in December 2023.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-zinc-500 pt-2">
+                            <span>Gallery Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+ 
+            </div>
+        </div>
+ 
+    </main>
+ 
+    <!-- Footer -->
+    <footer class="text-center text-xs text-zinc-600 mt-12 border-t border-zinc-900/80 pt-6 font-medium">
+        © 2026 Shia City Basketball
+    </footer>
+ 
+    <!-- Scripts -->
+    <script>
+(function() {
+    window.switchPhotoTab = switchPhotoTab;
+
+        function switchPhotoTab(tabId) {
+            document.querySelectorAll('.photo-tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+ 
+            ['seasons', 'tournaments'].forEach(t => {
+                const btn = document.getElementById(`btn-${t}`);
+                if (btn) {
+                    if (t === tabId) {
+                        btn.className = "px-4 py-1.5 rounded-lg text-xs font-semibold transition bg-orange-500 text-white shadow-sm";
+                    } else {
+                        btn.className = "px-4 py-1.5 rounded-lg text-xs font-medium transition text-zinc-400 hover:text-white";
+                    }
+                }
+            });
+        }
+ 
+        // Mobile Menu Toggle Script
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+    
+})();
+</script>
+    </div>
+    <script src="/assets/js/router.js" defer></script>
+</body>
+</html>

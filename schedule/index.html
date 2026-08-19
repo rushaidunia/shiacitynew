@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="color-scheme" content="dark">
+    <meta name="view-transition" content="same-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shia City Season 4 Schedule Hub</title>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: linear-gradient(to bottom, #09090b, #0d090f, #130a17);
+            background-attachment: fixed;
+        }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.25; transform: scale(1); }
+            50% { opacity: 0.45; transform: scale(1.03); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 min-h-screen selection:bg-orange-500 selection:text-white pb-12 flex flex-col justify-between">
+    <script src="/assets/js/historical-data.js"></script>
+    <script src="/assets/js/player-modal.js"></script>
+    <div id="app-content">
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-zinc-800/80 sticky top-0 z-30 bg-[#09090b]/85 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 font-black text-xs shadow-lg shadow-orange-500/20">SC</div>
+                <span class="text-xs font-bold tracking-wider text-zinc-200 uppercase">Shia City <span class="text-orange-400 font-extrabold">Basketball</span></span>
+            </div>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-zinc-400">
+                <a href="/" class="hover:text-zinc-100 transition">Home</a>
+                <a href="/schedule/" class="text-orange-400 font-semibold">Schedule</a>
+                <a href="/stats/" class="hover:text-zinc-100 transition">Stats & Standings</a>
+                <a href="/previousseasons/" class="hover:text-zinc-100 transition">Previous Seasons</a>
+                <a href="/photos/" class="hover:text-zinc-100 transition">Photos</a>
+            </nav>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-zinc-300 hover:text-white focus:outline-none p-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 pt-2 border-t border-zinc-800/80 bg-[#09090b]/95 backdrop-blur-xl flex flex-col space-y-3 text-xs font-medium text-zinc-400">
+            <a href="/" class="hover:text-zinc-100 transition py-1">Home</a>
+            <a href="/schedule/" class="text-orange-400 font-semibold py-1">Schedule</a>
+            <a href="/stats/" class="hover:text-zinc-100 transition py-1">Stats & Standings</a>
+            <a href="/previousseasons/" class="hover:text-zinc-100 transition py-1">Previous Seasons</a>
+            <a href="/photos/" class="hover:text-zinc-100 transition py-1">Photos</a>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 mt-8 flex flex-col gap-6">
+
+        <!-- Page Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
+            <div>
+                <h1 class="text-xl font-extrabold tracking-tight text-zinc-100">Season 4 Matchup Schedule</h1>
+                <p class="text-xs text-zinc-400 mt-0.5">Official basketball schedule, court assignments, and playoff roadmap. Click any match to view its specific independent box score.</p>
+            </div>
+        </div>
+
+        <!-- Advanced Filter Toolbar -->
+        <div class="bg-zinc-900 border border-zinc-800/80 rounded-2xl p-4 shadow-xl shadow-black/40 backdrop-blur-sm flex flex-col md:flex-row gap-3 items-center justify-between">
+            <div class="relative w-full md:w-72">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-zinc-400">🔍</span>
+                <input type="text" id="filter-team" oninput="applyFilters()" placeholder="Search team name..." 
+                    class="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-9 pr-4 py-2 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-orange-500 transition">
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 w-full md:w-auto">
+                <select id="filter-date" onchange="applyFilters()" class="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-300 focus:outline-none focus:border-orange-500 transition cursor-pointer">
+                    <option value="">All Dates</option>
+                </select>
+
+                <select id="filter-court" onchange="applyFilters()" class="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-300 focus:outline-none focus:border-orange-500 transition cursor-pointer">
+                    <option value="">All Courts</option>
+                    <option value="Court 1">Court 1</option>
+                    <option value="Court 2">Court 2</option>
+                    <option value="Court 3">Court 3</option>
+                </select>
+
+                <select id="filter-time" onchange="applyFilters()" class="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-300 focus:outline-none focus:border-orange-500 transition cursor-pointer">
+                    <option value="">All Times</option>
+                    <option value="9:00-10:00 PM">9:00-10:00 PM</option>
+                    <option value="10:00-11:00 PM">10:00-11:00 PM</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-center px-1">
+            <span id="result-count" class="text-xs font-semibold text-zinc-400">Showing all matchups</span>
+            <button onclick="resetFilters()" class="text-xs text-orange-400 hover:text-orange-300 font-medium transition underline underline-offset-4">Reset Filters</button>
+        </div>
+
+        <div id="games-container" class="flex flex-col gap-3"></div>
+
+        <!-- Postseason & Playoff Roadmap Section -->
+        <div class="mt-4 bg-zinc-900 border border-zinc-800/80 rounded-2xl p-6 shadow-xl shadow-black/40 backdrop-blur-sm flex flex-col gap-4">
+            <div class="flex items-center gap-2">
+                <span class="text-orange-400 text-base">🏆</span>
+                <h2 class="text-xs font-extrabold text-orange-400 tracking-wider uppercase">Postseason & Playoff Roadmap</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-zinc-950 border border-zinc-800/80 rounded-xl p-4 relative overflow-hidden flex flex-col justify-between">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-500"></div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-1">Round 1 (Top 8)</span>
+                        <h3 class="text-sm font-extrabold text-zinc-100">November 6, 2026</h3>
+                    </div>
+                    <p class="text-xs font-mono text-zinc-400 mt-4">9:00 PM – 12:00 AM</p>
+                </div>
+                <div class="bg-zinc-950 border border-zinc-800/80 rounded-xl p-4 relative overflow-hidden flex flex-col justify-between">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500"></div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-1">Semi-Finals</span>
+                        <h3 class="text-sm font-extrabold text-zinc-100">November 20, 2026</h3>
+                    </div>
+                    <p class="text-xs font-mono text-zinc-400 mt-4">9:00 PM – 11:00 PM</p>
+                </div>
+                <div class="bg-zinc-950 border border-zinc-800/80 rounded-xl p-4 relative overflow-hidden flex flex-col justify-between">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500"></div>
+                    <div>
+                        <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-1">Championship</span>
+                        <h3 class="text-sm font-extrabold text-zinc-100">November 27, 2026</h3>
+                    </div>
+                    <p class="text-xs font-mono text-zinc-400 mt-4">9:00 PM – 11:00 PM</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Box Score Modal -->
+    <div id="boxscore-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-[#121214] border border-zinc-800/80 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="p-5 border-b border-zinc-800/80 flex justify-between items-start bg-[#121214]">
+                <div>
+                    <h2 id="modal-match-title" class="text-sm font-extrabold text-orange-400 tracking-wider uppercase">TEAM VS TEAM</h2>
+                    <p class="text-[11px] text-zinc-400 mt-0.5" id="modal-match-subtitle">Date | Court</p>
+                </div>
+                <button onclick="closeBoxScoreModal()" class="w-7 h-7 rounded-xl bg-zinc-800/60 flex items-center justify-center text-zinc-400 hover:text-white font-bold text-xs transition">✕</button>
+            </div>
+
+            <div class="p-6 overflow-y-auto flex flex-col gap-6 bg-[#121214]">
+                <div class="flex flex-col gap-3">
+                    <div class="flex justify-between items-center bg-[#18181b] border border-zinc-800/80 rounded-xl px-4 py-3">
+                        <h3 id="modal-team1-name" class="text-xs font-bold text-orange-400 uppercase tracking-wider">TEAM 1</h3>
+                        <span id="modal-team1-score-badge" class="text-[11px] font-bold px-3 py-1 rounded-lg border font-mono">Final Score: -</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="text-[10px] font-bold text-zinc-500 uppercase border-b border-zinc-800/60">
+                                    <th class="pb-2.5 px-3">PLAYER</th>
+                                    <th class="pb-2.5 px-3 text-center">PTS</th>
+                                    <th class="pb-2.5 px-3 text-center">REB</th>
+                                    <th class="pb-2.5 px-3 text-center">STL</th>
+                                    <th class="pb-2.5 px-3 text-center">BLK</th>
+                                    <th class="pb-2.5 px-3 text-center">3PM</th>
+                                </tr>
+                            </thead>
+                            <tbody id="team1-players-table" class="divide-y divide-zinc-800/40 text-xs font-medium text-zinc-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3 pt-2">
+                    <div class="flex justify-between items-center bg-[#18181b] border border-zinc-800/80 rounded-xl px-4 py-3">
+                        <h3 id="modal-team2-name" class="text-xs font-bold text-orange-400 uppercase tracking-wider">TEAM 2</h3>
+                        <span id="modal-team2-score-badge" class="text-[11px] font-bold px-3 py-1 rounded-lg border font-mono">Final Score: -</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="text-[10px] font-bold text-zinc-500 uppercase border-b border-zinc-800/60">
+                                    <th class="pb-2.5 px-3">PLAYER</th>
+                                    <th class="pb-2.5 px-3 text-center">PTS</th>
+                                    <th class="pb-2.5 px-3 text-center">REB</th>
+                                    <th class="pb-2.5 px-3 text-center">STL</th>
+                                    <th class="pb-2.5 px-3 text-center">BLK</th>
+                                    <th class="pb-2.5 px-3 text-center">3PM</th>
+                                </tr>
+                            </thead>
+                            <tbody id="team2-players-table" class="divide-y divide-zinc-800/40 text-xs font-medium text-zinc-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-xs text-zinc-600 mt-12 border-t border-zinc-900/80 pt-6 font-medium">
+        © 2026 Shia City Basketball
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+(function() {
+
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+    
+})();
+</script>
+
+    <script>
+(function() {
+    window.applyFilters = applyFilters;
+    window.closeBoxScoreModal = closeBoxScoreModal;
+    window.resetFilters = resetFilters;
+
+        const rawSchedule = [
+            {
+                date: "August 28, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Azadars", team2: "Ghazis", s1: 62, s2: 68 },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "Intifada", team2: "House of Hyder", s1: 70, s2: 30 },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "bWood", team2: "The Resistance", s1: 23, s2: 60 },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "313 Wolves", team2: "Jabal", s1: 62, s2: 45 },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Benchwarmers", team2: "Unc Time", s1: 59, s2: 63 }
+                ]
+            },
+            {
+                date: "September 4, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "313 Wolves", team2: "Ghazis", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "bWood", team2: "Azadars", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "Jabal", team2: "House of Hyder", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "The Resistance", team2: "Unc Time", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Intifada", team2: "Benchwarmers", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "September 11, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "bWood", team2: "Benchwarmers", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "The Resistance", team2: "313 Wolves", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "Ghazis", team2: "House of Hyder", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "Intifada", team2: "Azadars", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Jabal", team2: "Unc Time", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "September 18, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Jabal", team2: "Azadars", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "Intifada", team2: "313 Wolves", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "The Resistance", team2: "Benchwarmers", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "bWood", team2: "House of Hyder", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Ghazis", team2: "Unc Time", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "September 25, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Jabal", team2: "Benchwarmers", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "bWood", team2: "Intifada", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "313 Wolves", team2: "Azadars", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "House of Hyder", team2: "Unc Time", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "The Resistance", team2: "Ghazis", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "October 2, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Benchwarmers", team2: "Ghazis", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "The Resistance", team2: "Jabal", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "bWood", team2: "313 Wolves", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "Intifada", team2: "Unc Time", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Azadars", team2: "House of Hyder", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "October 9, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Intifada", team2: "The Resistance", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "Jabal", team2: "Ghazis", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "Azadars", team2: "Benchwarmers", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "bWood", team2: "Unc Time", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "313 Wolves", team2: "House of Hyder", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "October 16, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "bWood", team2: "Ghazis", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "313 Wolves", team2: "Benchwarmers", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "Intifada", team2: "Jabal", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "The Resistance", team2: "House of Hyder", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Azadars", team2: "Unc Time", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "October 30, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Benchwarmers", team2: "House of Hyder", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "The Resistance", team2: "Azadars", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "Intifada", team2: "Ghazis", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "313 Wolves", team2: "Unc Time", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "bWood", team2: "Jabal", s1: null, s2: null }
+                ]
+            }
+        ];
+
+        let __cachedSchedule = null;
+        let __cachedBoxScores = null;
+
+        function cleanScheduleScores(parsed) {
+            function cleanScore(val) {
+                if (val === undefined || val === null) return null;
+                let strVal = String(val).trim();
+                if (strVal === '' || strVal === '-' || strVal.toLowerCase() === 'undefined' || strVal.toLowerCase() === 'nan') return null;
+                let num = Number(strVal);
+                return Number.isNaN(num) ? null : num;
+            }
+            parsed.forEach(week => {
+                week.games.forEach(g => {
+                    g.s1 = cleanScore(g.s1);
+                    g.s2 = cleanScore(g.s2);
+                });
+            });
+            return parsed;
+        }
+
+        async function loadGameData() {
+            const storedSchedule = localStorage.getItem('shia_city_schedule');
+            const storedBoxScores = localStorage.getItem('shia_city_game_boxscores');
+
+            if (storedSchedule || storedBoxScores) {
+                try {
+                    __cachedSchedule = storedSchedule ? cleanScheduleScores(JSON.parse(storedSchedule)) : null;
+                } catch (e) {
+                    __cachedSchedule = null;
+                }
+                __cachedBoxScores = storedBoxScores ? JSON.parse(storedBoxScores) : {};
+                return;
+            }
+
+            try {
+                const res = await fetch(`/data.json?t=${Date.now()}`, { cache: 'no-store' });
+                if (res.ok) {
+                    const json = await res.json();
+                    __cachedSchedule = json.schedule ? cleanScheduleScores(json.schedule) : null;
+                    __cachedBoxScores = json.boxScores || {};
+                    return;
+                }
+            } catch (e) {
+                console.warn('data.json not found, falling back to built-in default schedule.', e);
+            }
+
+            __cachedSchedule = null;
+            __cachedBoxScores = {};
+        }
+
+        function getScheduleData() {
+            return __cachedSchedule || rawSchedule;
+        }
+
+        function getStoredGameBoxScores() {
+            return __cachedBoxScores || {};
+        }
+
+        let scheduleData = null;
+
+        function exportStandingsToLocalStorage() {
+            let teamStats = {};
+            scheduleData.forEach(week => {
+                week.games.forEach(g => {
+                    let s1 = Number(g.s1);
+                    let s2 = Number(g.s2);
+                    let hasValidScore = (g.s1 !== null && g.s2 !== null && !isNaN(s1) && !isNaN(s2) && g.s1 !== '' && g.s2 !== '');
+                    
+                    if (hasValidScore) {
+                        if (!teamStats[g.team1]) teamStats[g.team1] = { wins: 0, losses: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
+                        if (!teamStats[g.team2]) teamStats[g.team2] = { wins: 0, losses: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
+
+                        teamStats[g.team1].ptsFor += s1;
+                        teamStats[g.team1].ptsAgainst += s2;
+                        teamStats[g.team1].diff += (s1 - s2);
+
+                        teamStats[g.team2].ptsFor += s2;
+                        teamStats[g.team2].ptsAgainst += s1;
+                        teamStats[g.team2].diff += (s2 - s1);
+
+                        if (s1 > s2) {
+                            teamStats[g.team1].wins++;
+                            teamStats[g.team2].losses++;
+                        } else if (s2 > s1) {
+                            teamStats[g.team2].wins++;
+                            teamStats[g.team1].losses++;
+                        }
+                    }
+                });
+            });
+            localStorage.setItem('shia_city_team_stats', JSON.stringify(teamStats));
+        }
+
+        function initDateDropdown() {
+            const select = document.getElementById('filter-date');
+            scheduleData.forEach(week => {
+                let opt = document.createElement('option');
+                opt.value = week.date;
+                opt.innerText = week.date;
+                select.appendChild(opt);
+            });
+        }
+
+        function applyFilters() {
+            const teamQuery = document.getElementById('filter-team').value.toLowerCase().trim();
+            const dateQuery = document.getElementById('filter-date').value;
+            const courtQuery = document.getElementById('filter-court').value;
+            const timeQuery = document.getElementById('filter-time').value;
+
+            const container = document.getElementById('games-container');
+            container.innerHTML = '';
+
+            let totalMatches = 0;
+
+            scheduleData.forEach((week, wIdx) => {
+                if (dateQuery && week.date !== dateQuery) return;
+
+                let filteredGamesWithIndices = [];
+                week.games.forEach((game, gIdx) => {
+                    let matchTeam = !teamQuery || game.team1.toLowerCase().includes(teamQuery) || game.team2.toLowerCase().includes(teamQuery);
+                    let matchCourt = !courtQuery || game.court === courtQuery;
+                    let matchTime = !timeQuery || game.time === timeQuery;
+                    if (matchTeam && matchCourt && matchTime) {
+                        filteredGamesWithIndices.push({ game, gIdx });
+                    }
+                });
+
+                if (filteredGamesWithIndices.length > 0) {
+                    let dateHeader = document.createElement('div');
+                    dateHeader.className = "text-xs font-bold text-orange-400 tracking-wider uppercase mt-4 mb-2 flex items-center gap-2";
+                    dateHeader.innerHTML = `<span>📅</span> ${week.date}`;
+                    container.appendChild(dateHeader);
+
+                    filteredGamesWithIndices.forEach(({ game, gIdx }) => {
+                        totalMatches++;
+                        let card = document.createElement('div');
+                        card.className = "bg-zinc-900 border border-zinc-800 hover:border-orange-500/50 transition rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 shadow-md cursor-pointer";
+                        card.onclick = () => openBoxScore(wIdx, gIdx);
+                        
+                        let hasScore = (game.s1 !== null && game.s2 !== null);
+                        let centerBadgeHTML = '';
+                        let team1DisplayHTML = '';
+                        let team2DisplayHTML = '';
+
+                        if (hasScore) {
+                            let s1 = game.s1;
+                            let s2 = game.s2;
+                            let t1Win = s1 > s2;
+                            let t2Win = s2 > s1;
+
+                            let t1Color = t1Win ? 'text-emerald-400 font-bold' : (t2Win ? 'text-rose-400 font-medium' : 'text-zinc-100 font-bold');
+                            let t1Badge = t1Win ? `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">W</span>` : (t2Win ? `<span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">L</span>` : '');
+
+                            let t2Color = t2Win ? 'text-emerald-400 font-bold' : (t1Win ? 'text-rose-400 font-medium' : 'text-zinc-100 font-bold');
+                            let t2Badge = t2Win ? `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">W</span>` : (t1Win ? `<span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">L</span>` : '');
+
+                            team1DisplayHTML = `
+                                <div class="flex items-center justify-end gap-2 w-[42%]">
+                                    <span class="text-xs font-mono font-semibold ${t1Color}">${s1}</span>
+                                    ${t1Badge}
+                                    <span class="${t1Color} text-sm truncate" title="${game.team1}">${game.team1}</span>
+                                </div>
+                            `;
+
+                            team2DisplayHTML = `
+                                <div class="flex items-center justify-start gap-2 w-[42%]">
+                                    <span class="${t2Color} text-sm truncate" title="${game.team2}">${game.team2}</span>
+                                    ${t2Badge}
+                                    <span class="text-xs font-mono font-semibold ${t2Color}">${s2}</span>
+                                </div>
+                            `;
+
+                            centerBadgeHTML = `<span class="text-zinc-500 font-extrabold text-[10px] bg-zinc-950 px-2.5 py-1 rounded-md border border-zinc-800">FINAL</span>`;
+                        } else {
+                            team1DisplayHTML = `<span class="font-bold text-zinc-100 text-sm text-right w-[42%] truncate" title="${game.team1}">${game.team1}</span>`;
+                            team2DisplayHTML = `<span class="font-bold text-zinc-100 text-sm w-[42%] truncate" title="${game.team2}">${game.team2}</span>`;
+                            centerBadgeHTML = `<span class="text-orange-500 font-extrabold text-[10px] bg-zinc-950 px-2.5 py-1 rounded-md border border-zinc-800">VS</span>`;
+                        }
+
+                        card.innerHTML = `
+                            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+                                <span class="bg-orange-500/10 text-orange-400 font-mono text-[11px] px-2.5 py-1 rounded-lg border border-orange-500/20 font-semibold">${game.court}</span>
+                                <div class="flex items-center gap-2 sm:hidden">
+                                    <span class="text-zinc-400 text-xs font-medium">${game.time}</span>
+                                    <span class="flex items-center justify-center w-6 h-6 text-orange-400 bg-orange-500/10 border border-orange-500/20 rounded-lg text-[11px]" title="Tap to view box score">📋</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-center gap-3 flex-1 w-full sm:w-auto my-1 sm:my-0">
+                                ${team1DisplayHTML}
+                                ${centerBadgeHTML}
+                                ${team2DisplayHTML}
+                            </div>
+
+                            <div class="hidden sm:flex items-center gap-3 text-right">
+                                <span class="text-zinc-400 font-mono text-xs font-medium">${game.time}</span>
+                                <span class="text-[11px] font-semibold text-orange-400 hover:text-orange-300 bg-orange-500/10 px-2.5 py-1 rounded-lg border border-orange-500/25 transition">📋 Box Score</span>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                }
+            });
+
+            document.getElementById('result-count').innerText = `Showing ${totalMatches} matching games`;
+            if (totalMatches === 0) {
+                container.innerHTML = `
+                    <div class="bg-zinc-900/40 border border-zinc-800 rounded-2xl p-8 text-center text-zinc-500 text-xs italic">
+                        No matches found matching your filters.
+                    </div>
+                `;
+            }
+        }
+
+        function resetFilters() {
+            document.getElementById('filter-team').value = '';
+            document.getElementById('filter-date').value = '';
+            document.getElementById('filter-court').value = '';
+            document.getElementById('filter-time').value = '';
+            applyFilters();
+        }
+
+        let currentModalWeek = null;
+        let currentModalGame = null;
+
+        function openBoxScore(wIdx, gIdx) {
+            currentModalWeek = wIdx;
+            currentModalGame = gIdx;
+
+            const game = scheduleData[wIdx].games[gIdx];
+            const hasScore = (game.s1 !== null && game.s2 !== null);
+
+            document.getElementById('modal-match-title').innerText = `${game.team1} VS ${game.team2}`;
+            document.getElementById('modal-match-subtitle').innerText = `${scheduleData[wIdx].date} | ${game.court} (${game.time})`;
+
+            document.getElementById('modal-team1-name').innerText = game.team1.toUpperCase();
+            document.getElementById('modal-team2-name').innerText = game.team2.toUpperCase();
+
+            const t1Badge = document.getElementById('modal-team1-score-badge');
+            const t2Badge = document.getElementById('modal-team2-score-badge');
+
+            if (hasScore) {
+                let t1Win = game.s1 > game.s2;
+                t1Badge.className = `text-[11px] font-bold px-3 py-1 rounded-lg border font-mono ${t1Win ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'}`;
+                t1Badge.innerText = `Final Score: ${game.s1}`;
+                t1Badge.style.display = 'inline-block';
+
+                let t2Win = game.s2 > game.s1;
+                t2Badge.className = `text-[11px] font-bold px-3 py-1 rounded-lg border font-mono ${t2Win ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'}`;
+                t2Badge.innerText = `Final Score: ${game.s2}`;
+                t2Badge.style.display = 'inline-block';
+            } else {
+                t1Badge.style.display = 'none';
+                t2Badge.style.display = 'none';
+            }
+
+            renderTeamPlayersInModal('team1-players-table', game.team1, wIdx, gIdx);
+            renderTeamPlayersInModal('team2-players-table', game.team2, wIdx, gIdx);
+
+            document.getElementById('boxscore-modal').classList.remove('hidden');
+        }
+
+        function closeBoxScoreModal() {
+            document.getElementById('boxscore-modal').classList.add('hidden');
+        }
+
+        function renderTeamPlayersInModal(tableId, teamName, wIdx, gIdx) {
+            const tbody = document.getElementById(tableId);
+            tbody.innerHTML = '';
+
+            const defaultLeagueData = [
+                {
+                    teamName: "Intifada",
+                    players: [
+                        { name: "Hussan Ali", role: "Captain" }, { name: "Ayaz Haider", role: "Player" },
+                        { name: "Hasan Ahmad", role: "Player" }, { name: "Mohammad Naqvi", role: "Player" },
+                        { name: "Hyder Khan", role: "Player" }, { name: "Shayan Jafri", role: "Player" }
+                    ]
+                },
+                {
+                    teamName: "bWood",
+                    players: [
+                        { name: "Ali Abbas Naqvi", role: "Captain" }, { name: "Hadi Naqvi", role: "Player" },
+                        { name: "Syed Noeshare", role: "Player" }, { name: "Asim Abidi", role: "Player" },
+                        { name: "Abbas Naqvi", role: "Player" }, { name: "Zeeshan Hussain", role: "Player" }
+                    ]
+                },
+                {
+                    teamName: "House of Hyder",
+                    players: [
+                        { name: "Zain Jafri", role: "Captain" }, { name: "Mohsin Jaffery", role: "Player" },
+                        { name: "Imran Zaidi", role: "Player" }, { name: "Mohammad Zaidi", role: "Player" },
+                        { name: "Abbas Syed", role: "Player" }, { name: "Hussain Shah", role: "Player" }
+                    ]
+                },
+                {
+                    teamName: "Unc Time",
+                    players: [
+                        { name: "Imran Ladak", role: "Captain" }, { name: "Ali Ladak", role: "Player" },
+                        { name: "Hussain Khan", role: "Player" }, { name: "Hamza Rizvi", role: "Player" },
+                        { name: "Ameer Abidi", role: "Player" }, { name: "Jazib Mustafa", role: "Player" }
+                    ]
+                },
+                {
+                    teamName: "Ghazis",
+                    players: [
+                        { name: "Syed Daniyal", role: "Captain" }, { name: "Abbas Aslam", role: "Player" },
+                        { name: "Syed Ale Hassan", role: "Player" }, { name: "Zulfiqar Hussain", role: "Player" },
+                        { name: "Irtaza Hassan", role: "Player" }, { name: "Ali Asghar Rizvi", role: "Player" }
+                    ]
+                },
+                {
+                    teamName: "Jabal",
+                    players: [
+                        { name: "Danesh Jafri", role: "Captain" }, { name: "Adil Abidi", role: "Player" },
+                        { name: "Ali Abidi", role: "Player" }, { name: "Asoo Rizvi", role: "Player" },
+                        { name: "Zain Ali Shah", role: "Player" }, { name: "Abbas Rizvi", role: "Player" }
+                    ]
+                },
+                {
+                    teamName: "The Resistance",
+                    players: [
+                        { name: "Mo Naqvi", role: "Captain" }, { name: "Zulfiqar Rizvi", role: "Player" },
+                        { name: "Ammad Mehdi", role: "Player" }, { name: "Rehan Azam", role: "Player" },
+                        { name: "Shan Ali", role: "Player" }, { name: "Turab Hussain", role: "Player" }
+                    ]
+                },
+                {
+                    teamName: "Benchwarmers",
+                    players: [
+                        { name: "Hasnain Zaidi", role: "Captain" }, { name: "Turab Kazim", role: "Player" },
+                        { name: "AJ Hussain", role: "Player" }, { name: "Tamseel Raza", role: "Player" },
+                        { name: "Zain Hussain", role: "Player" }, { name: "Kumail Jafri", role: "Player" }
+                    ]
+                },
+                {
+                    teamName: "Azadars",
+                    players: [
+                        { name: "Ali Zaidi", role: "Captain" }, { name: "Murtaza Hussain", role: "Player" },
+                        { name: "Hashim Shah", role: "Player" }, { name: "Hassan Mujtaba Kazmi", role: "Player" },
+                        { name: "Hani Zahid", role: "Player" }, { name: "Abbas Khan", role: "Player" }
+                    ]
+                },
+                {
+                    teamName: "313 Wolves",
+                    players: [
+                        { name: "Taqi Hussain", role: "Captain" }, { name: "Hamza Syed", role: "Player" },
+                        { name: "Sibtain Raza", role: "Player" }, { name: "Ali Naqvi", role: "Player" },
+                        { name: "Zain Ali", role: "Player" }, { name: "Khushnood Rizvi", role: "Player" }
+                    ]
+                }
+            ];
+
+            const storedLeague = localStorage.getItem('shia_city_league_data_v3');
+            const leagueData = storedLeague ? JSON.parse(storedLeague) : defaultLeagueData;
+            let teamObj = leagueData.find(t => t.teamName.toLowerCase() === teamName.toLowerCase());
+
+            if (!teamObj || !teamObj.players) {
+                tbody.innerHTML = `<tr><td colspan="6" class="py-4 text-center text-xs text-zinc-500 italic">No player stats available for this team.</td></tr>`;
+                return;
+            }
+
+            const allBoxScores = getStoredGameBoxScores();
+            const gameKey = `w${wIdx}_g${gIdx}`;
+            const gameBox = allBoxScores[gameKey] || {};
+            const teamBox = gameBox[teamName] || {};
+
+            let html = '';
+            teamObj.players.forEach(p => {
+                let pStats = teamBox[p.name] || {};
+                let ptsVal = (pStats.pts !== undefined && pStats.pts !== null && pStats.pts !== '') ? pStats.pts : '-';
+                let rebVal = (pStats.reb !== undefined && pStats.reb !== null && pStats.reb !== '') ? pStats.reb : '-';
+                let stlVal = (pStats.stl !== undefined && pStats.stl !== null && pStats.stl !== '') ? pStats.stl : '-';
+                let blkVal = (pStats.blk !== undefined && pStats.blk !== null && pStats.blk !== '') ? pStats.blk : '-';
+                let tpmVal = (pStats.tpm !== undefined && pStats.tpm !== null && pStats.tpm !== '') ? pStats.tpm : '-';
+
+                html += `
+                <tr class="hover:bg-zinc-900/40 transition">
+                    <td class="py-3 px-3 text-xs font-semibold text-zinc-200">${p.name}</td>
+                    <td class="py-3 px-3 text-center text-xs font-mono font-bold text-zinc-100">${ptsVal}</td>
+                    <td class="py-3 px-3 text-center text-xs font-mono text-zinc-300">${rebVal}</td>
+                    <td class="py-3 px-3 text-center text-xs font-mono text-zinc-300">${stlVal}</td>
+                    <td class="py-3 px-3 text-center text-xs font-mono text-zinc-300">${blkVal}</td>
+                    <td class="py-3 px-3 text-center text-xs font-mono text-zinc-300">${tpmVal}</td>
+                </tr>`;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        (async function bootstrap() {
+            await loadGameData();
+            scheduleData = getScheduleData();
+            exportStandingsToLocalStorage();
+            initDateDropdown();
+            applyFilters();
+        })();
+    
+})();
+</script>
+    </div>
+    <script src="/assets/js/router.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="color-scheme" content="dark">
+    <meta name="view-transition" content="same-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shia City Basketball - Stats & Standings</title>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: linear-gradient(to bottom, #09090b, #0d090f, #130a17);
+            background-attachment: fixed;
+        }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.25; transform: scale(1); }
+            50% { opacity: 0.45; transform: scale(1.03); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 min-h-screen selection:bg-orange-500 selection:text-white pb-16 flex flex-col justify-between">
+    <script src="/assets/js/historical-data.js"></script>
+    <script src="/assets/js/player-modal.js"></script>
+    <div id="app-content">
+
+    <!-- Tailwind CSS warm-up (hidden): these exact classes are only otherwise used
+         inside JS template strings in renderTeamRosters(), so the CDN JIT never
+         sees them until that HTML is injected on tab-switch, causing a brief
+         flash of unstyled rows. Listing them here forces Tailwind to compile
+         them on initial page load instead. Safe to extend if more classes are
+         added to renderTeamRosters() later. -->
+    <div class="hidden divide-zinc-800/30 ml-1.5 px-1.5 py-2.5 py-3 table-fixed w-2/5 w-[10%]"></div>
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-zinc-800/60 sticky top-0 z-30 bg-[#09090b]/80 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 font-black text-xs">SC</div>
+                <span class="text-xs font-bold tracking-wider text-zinc-200 uppercase">Shia City <span class="text-orange-400 font-extrabold">Basketball</span></span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-zinc-400">
+                <a href="/" class="hover:text-zinc-100 transition">Home</a>
+                <a href="/schedule/" class="hover:text-zinc-100 transition">Schedule</a>
+                <a href="/stats/" class="text-orange-400 font-semibold">Stats & Standings</a>
+                <a href="/previousseasons/" class="hover:text-zinc-100 transition">Previous Seasons</a>
+                <a href="/photos/" class="hover:text-zinc-100 transition">Photos</a>
+            </nav>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-zinc-300 hover:text-white focus:outline-none p-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 pt-2 border-t border-zinc-800/80 bg-[#09090b]/95 backdrop-blur-xl flex flex-col space-y-3 text-xs font-medium text-zinc-400">
+            <a href="/" class="hover:text-zinc-100 transition py-1">Home</a>
+            <a href="/schedule/" class="hover:text-zinc-100 transition py-1">Schedule</a>
+            <a href="/stats/" class="text-orange-400 font-semibold py-1">Stats & Standings</a>
+            <a href="/previousseasons/" class="hover:text-zinc-100 transition py-1">Previous Seasons</a>
+            <a href="/photos/" class="hover:text-zinc-100 transition py-1">Photos</a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl w-full mx-auto px-4 mt-8 flex flex-col gap-6">
+
+        <!-- Page Header & Tab Navigation -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
+            <div>
+                <h1 id="page-title" class="text-xl font-extrabold tracking-tight text-zinc-100">Season 4 Statistics & Standings</h1>
+                <p id="page-subtitle" class="text-xs text-zinc-400 mt-0.5">Live leaderboard, team standings, and complete player rosters. <span class="text-orange-400 font-semibold">Click any player's name to view their career stats.</span></p>
+            </div>
+            
+            <!-- Sleek Modern Tabs -->
+            <div class="flex items-center gap-1 bg-zinc-900 border border-zinc-800/80 p-1 rounded-xl shadow-inner overflow-x-auto w-full sm:w-auto">
+                <button onclick="switchTab('standings')" id="btn-standings" class="px-2.5 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold transition bg-orange-500 text-white shadow-sm whitespace-nowrap shrink-0">Standings</button>
+                <button onclick="switchTab('leaders')" id="btn-leaders" class="px-2.5 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition text-zinc-400 hover:text-white whitespace-nowrap shrink-0">Leaderboards</button>
+                <button onclick="switchTab('players')" id="btn-players" class="px-2.5 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition text-zinc-400 hover:text-white whitespace-nowrap shrink-0">Team Rosters & Stats</button>
+            </div>
+        </div>
+
+        <!-- TAB 1: STANDINGS -->
+        <div id="tab-standings" class="tab-content flex flex-col gap-4">
+            <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md">
+                <div class="p-4 border-b border-zinc-800/60 flex justify-between items-center bg-zinc-900/20">
+                    <h2 class="text-xs font-bold text-zinc-300 uppercase tracking-wider flex items-center gap-2"><span>📊</span> Regular Season Standings</h2>
+                    <span class="text-[11px] text-zinc-500 font-medium">Synced with schedule scores</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-zinc-950/40 text-zinc-400 border-b border-zinc-800/60 text-[11px] uppercase tracking-wider font-semibold">
+                                <th class="p-3 text-center w-12">Rk</th>
+                                <th class="p-3">Team Name</th>
+                                <th class="p-3 text-center">Record</th>
+                                <th class="p-3 text-center">PCT</th>
+                                <th class="p-3 text-center">Point Diff</th>
+                                <th class="p-3 text-center">Total Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="standings-table-body" class="divide-y divide-zinc-800/40 font-mono text-zinc-300">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: LEADERBOARDS -->
+        <div id="tab-leaders" class="tab-content hidden flex flex-col gap-5">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xs font-bold text-zinc-300 uppercase tracking-wider flex items-center gap-2"><span>🔥</span> Top 10 Player Leaderboards</h2>
+                <div class="flex gap-2">
+                    <select id="leaderboard-stat-select" onchange="renderLeaderboards(this.value)" class="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-zinc-200 focus:outline-none focus:border-zinc-700 transition cursor-pointer font-medium shadow-inner">
+                        <option value="ppg">Points Per Game (PPG)</option>
+                        <option value="reb">Rebounds Per Game (REB)</option>
+                        <option value="stl">Steals Per Game (STL)</option>
+                        <option value="blk">Blocks Per Game (BLK)</option>
+                        <option value="tpm">3-Pointers Made (3PM)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-zinc-950/40 text-zinc-400 border-b border-zinc-800/60 text-[11px] uppercase tracking-wider font-semibold">
+                                <th class="p-3 text-center w-16">Rank</th>
+                                <th class="p-3">Player Name</th>
+                                <th class="p-3">Team</th>
+                                <th id="leaderboard-stat-header" class="p-3 text-right pr-6 font-mono">PPG</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-table-body" class="divide-y divide-zinc-800/40">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: TEAM ROSTERS & STATS -->
+        <div id="tab-players" class="tab-content hidden flex flex-col gap-5">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-3 bg-zinc-900 border border-zinc-800/80 rounded-2xl p-3.5 shadow-xl backdrop-blur-md">
+                <div class="relative w-full md:w-72">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-zinc-500 text-xs">🔍</span>
+                    <input type="text" id="filter-player-input" oninput="renderTeamRosters()" placeholder="Search player..." 
+                        class="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-9 pr-4 py-2 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-700 transition">
+                </div>
+                
+                <div class="flex items-center justify-between md:justify-end gap-3 w-full md:w-auto">
+                    <div class="flex items-center gap-2">
+                        <select id="filter-team-select" onchange="renderTeamRosters()" class="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-zinc-300 focus:outline-none focus:border-zinc-700 transition cursor-pointer md:w-48 font-medium">
+                            <option value="ALL">All Teams</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="team-rosters-container" class="flex flex-col gap-5">
+                <!-- Injected dynamically -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-zinc-600 mt-12 border-t border-zinc-900/80 pt-6 font-medium">
+        © 2026 Shia City Basketball
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+(function() {
+
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+    
+})();
+</script>
+
+    <script>
+(function() {
+    window.renderLeaderboards = renderLeaderboards;
+    window.renderTeamRosters = renderTeamRosters;
+    window.switchTab = switchTab;
+
+        const rawSchedule = [
+            {
+                date: "August 28, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Azadars", team2: "Ghazis", s1: 62, s2: 68 },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "Intifada", team2: "House of Hyder", s1: 70, s2: 30 },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "bWood", team2: "The Resistance", s1: 23, s2: 60 },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "313 Wolves", team2: "Jabal", s1: 62, s2: 45 },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Benchwarmers", team2: "Unc Time", s1: 59, s2: 63 }
+                ]
+            },
+            {
+                date: "September 4, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "313 Wolves", team2: "Ghazis", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "bWood", team2: "Azadars", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "Jabal", team2: "House of Hyder", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "The Resistance", team2: "Unc Time", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Intifada", team2: "Benchwarmers", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "September 11, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "bWood", team2: "Benchwarmers", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "The Resistance", team2: "313 Wolves", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "Ghazis", team2: "House of Hyder", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "Intifada", team2: "Azadars", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Jabal", team2: "Unc Time", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "September 18, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Jabal", team2: "Azadars", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "Intifada", team2: "313 Wolves", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "The Resistance", team2: "Benchwarmers", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "bWood", team2: "House of Hyder", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Ghazis", team2: "Unc Time", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "September 25, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Jabal", team2: "Benchwarmers", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "bWood", team2: "Intifada", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "313 Wolves", team2: "Azadars", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "House of Hyder", team2: "Unc Time", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "The Resistance", team2: "Ghazis", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "October 2, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Benchwarmers", team2: "Ghazis", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "The Resistance", team2: "Jabal", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "bWood", team2: "313 Wolves", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "Intifada", team2: "Unc Time", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Azadars", team2: "House of Hyder", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "October 9, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Intifada", team2: "The Resistance", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "Jabal", team2: "Ghazis", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "Azadars", team2: "Benchwarmers", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "bWood", team2: "Unc Time", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "313 Wolves", team2: "House of Hyder", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "October 16, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "bWood", team2: "Ghazis", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "313 Wolves", team2: "Benchwarmers", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "Intifada", team2: "Jabal", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "The Resistance", team2: "House of Hyder", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "Azadars", team2: "Unc Time", s1: null, s2: null }
+                ]
+            },
+            {
+                date: "October 30, 2026",
+                games: [
+                    { time: "9:00-10:00 PM", court: "Court 1", team1: "Benchwarmers", team2: "House of Hyder", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 2", team1: "The Resistance", team2: "Azadars", s1: null, s2: null },
+                    { time: "9:00-10:00 PM", court: "Court 3", team1: "Intifada", team2: "Ghazis", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 1", team1: "313 Wolves", team2: "Unc Time", s1: null, s2: null },
+                    { time: "10:00-11:00 PM", court: "Court 2", team1: "bWood", team2: "Jabal", s1: null, s2: null }
+                ]
+            }
+        ];
+
+        const defaultLeagueData = [
+            {
+                teamName: "Intifada",
+                players: [
+                    { name: "Hussan Ali", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Ayaz Haider", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Hasan Ahmad", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Mohammad Naqvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Hyder Khan", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Shayan Jafri", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                ]
+            },
+            {
+                teamName: "bWood",
+                players: [
+                    { name: "Ali Abbas Naqvi", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Hadi Naqvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Syed Noeshare", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Asim Abidi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Abbas Naqvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Zeeshan Hussain", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                ]
+            },
+            {
+                teamName: "House of Hyder",
+                players: [
+                    { name: "Zain Jafri", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Mohsin Jaffery", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Imran Zaidi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Mohammad Zaidi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Abbas Syed", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Hussain Shah", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                ]
+            },
+            {
+                teamName: "Unc Time",
+                players: [
+                    { name: "Imran Ladak", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Ali Ladak", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Hussain Khan", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Hamza Rizvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Ameer Abidi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Jazib Mustafa", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                ]
+            },
+            {
+                teamName: "Ghazis",
+                players: [
+                    { name: "Syed Daniyal", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Abbas Aslam", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Syed Ale Hassan", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Zulfiqar Hussain", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Irtaza Hassan", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Ali Asghar Rizvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                ]
+            },
+            {
+                teamName: "Jabal",
+                players: [
+                    { name: "Danesh Jafri", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Adil Abidi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Ali Abidi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Asoo Rizvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Zain Ali Shah", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Abbas Rizvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                ]
+            },
+            {
+                teamName: "The Resistance",
+                players: [
+                    { name: "Mo Naqvi", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Zulfiqar Rizvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Ammad Mehdi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Rehan Azam", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Shan Ali", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Turab Hussain", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                ]
+            },
+            {
+                teamName: "Benchwarmers",
+                players: [
+                    { name: "Hasnain Zaidi", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Turab Kazim", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "AJ Hussain", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Tamseel Raza", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Zain Hussain", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Kumail Jafri", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                ]
+            },
+            {
+                teamName: "Azadars",
+                players: [
+                    { name: "Ali Zaidi", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Murtaza Hussain", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Hashim Shah", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Hassan Mujtaba Kazmi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Hani Zahid", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Abbas Khan", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                ]
+            },
+            {
+                teamName: "313 Wolves",
+                players: [
+                    { name: "Taqi Hussain", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Hamza Syed", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Sibtain Raza", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Ali Naqvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Zain Ali", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Khushnood Rizvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                ]
+            }
+        ];
+
+        // ---- Data loading: localStorage (local admin browser) first, falling back to
+        // ---- data.json (published copy, used by every other visitor on Netlify/GitHub) ----
+        let __cachedSchedule = null;
+        let __cachedBoxScores = null;
+
+        async function loadGameData() {
+            const storedSchedule = localStorage.getItem('shia_city_schedule');
+            const storedBoxScores = localStorage.getItem('shia_city_game_boxscores');
+
+            // If this browser has admin edits in localStorage, use them directly
+            // (this is what keeps your local editing workflow instant, unchanged).
+            if (storedSchedule || storedBoxScores) {
+                try {
+                    __cachedSchedule = storedSchedule ? JSON.parse(storedSchedule) : null;
+                } catch (e) {
+                    __cachedSchedule = null;
+                }
+                __cachedBoxScores = storedBoxScores ? JSON.parse(storedBoxScores) : {};
+                return;
+            }
+
+            // Otherwise (e.g. a visitor on the live site), load the published data.json.
+            try {
+                const res = await fetch(`/data.json?t=${Date.now()}`, { cache: 'no-store' });
+                if (res.ok) {
+                    const json = await res.json();
+                    __cachedSchedule = json.schedule || null;
+                    __cachedBoxScores = json.boxScores || {};
+                    return;
+                }
+            } catch (e) {
+                console.warn('data.json not found, falling back to built-in default schedule.', e);
+            }
+
+            __cachedSchedule = null;
+            __cachedBoxScores = {};
+        }
+
+        function getScheduleData() {
+            return __cachedSchedule || rawSchedule;
+        }
+
+        function getStoredGameBoxScores() {
+            return __cachedBoxScores || {};
+        }
+
+        // Computes team win/loss/points-for/points-against directly from schedule data.
+        // (Previously this relied on schedule.html having run first and cached the result
+        // in localStorage — which broke if a visitor landed on stats.html first.)
+        function computeTeamStats() {
+            const schedule = getScheduleData();
+            let teamStats = {};
+            schedule.forEach(week => {
+                week.games.forEach(g => {
+                    let s1 = Number(g.s1);
+                    let s2 = Number(g.s2);
+                    let hasValidScore = (g.s1 !== null && g.s2 !== null && !isNaN(s1) && !isNaN(s2) && g.s1 !== '' && g.s2 !== '');
+
+                    if (hasValidScore) {
+                        if (!teamStats[g.team1]) teamStats[g.team1] = { wins: 0, losses: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
+                        if (!teamStats[g.team2]) teamStats[g.team2] = { wins: 0, losses: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
+
+                        teamStats[g.team1].ptsFor += s1;
+                        teamStats[g.team1].ptsAgainst += s2;
+                        teamStats[g.team1].diff += (s1 - s2);
+
+                        teamStats[g.team2].ptsFor += s2;
+                        teamStats[g.team2].ptsAgainst += s1;
+                        teamStats[g.team2].diff += (s2 - s1);
+
+                        if (s1 > s2) {
+                            teamStats[g.team1].wins++;
+                            teamStats[g.team2].losses++;
+                        } else if (s2 > s1) {
+                            teamStats[g.team2].wins++;
+                            teamStats[g.team1].losses++;
+                        }
+                    }
+                });
+            });
+            return teamStats;
+        }
+
+        function getStoredLeagueData() {
+            const data = localStorage.getItem('shia_city_league_data_v3');
+            if (data) {
+                try {
+                    let parsed = JSON.parse(data);
+                    return parsed.map(t => ({
+                        teamName: t.teamName,
+                        players: t.players.map(p => ({
+                            name: p.name,
+                            role: p.role || 'Player',
+                            gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-'
+                        }))
+                    }));
+                } catch(e) {
+                    return defaultLeagueData.map(t => ({ ...t }));
+                }
+            }
+            return defaultLeagueData.map(t => ({ ...t }));
+        }
+
+        let leagueData = getStoredLeagueData();
+
+        function aggregatePlayerStats(data) {
+            const schedule = getScheduleData();
+            const allBoxScores = getStoredGameBoxScores();
+
+            let playerMap = {};
+            data.forEach(team => {
+                playerMap[team.teamName] = {};
+                team.players.forEach(p => {
+                    playerMap[team.teamName][p.name] = { gp: 0, pts: 0, reb: 0, stl: 0, blk: 0, tpm: 0 };
+                });
+            });
+
+            schedule.forEach((week, wIdx) => {
+                week.games.forEach((game, gIdx) => {
+                    const gameKey = `w${wIdx}_g${gIdx}`;
+                    const gameBox = allBoxScores[gameKey];
+                    if (gameBox) {
+                        [game.team1, game.team2].forEach(teamName => {
+                            const teamBox = gameBox[teamName];
+                            if (teamBox && playerMap[teamName]) {
+                                Object.keys(teamBox).forEach(playerName => {
+                                    if (playerMap[teamName][playerName]) {
+                                        const pStats = teamBox[playerName];
+                                        const pts = Number(pStats.pts);
+                                        const reb = Number(pStats.reb);
+                                        const stl = Number(pStats.stl);
+                                        const blk = Number(pStats.blk);
+                                        const tpm = Number(pStats.tpm);
+
+                                        if (!isNaN(pts) || !isNaN(reb) || !isNaN(stl) || !isNaN(blk) || !isNaN(tpm)) {
+                                            playerMap[teamName][playerName].gp += 1;
+                                            playerMap[teamName][playerName].pts += isNaN(pts) ? 0 : pts;
+                                            playerMap[teamName][playerName].reb += isNaN(reb) ? 0 : reb;
+                                            playerMap[teamName][playerName].stl += isNaN(stl) ? 0 : stl;
+                                            playerMap[teamName][playerName].blk += isNaN(blk) ? 0 : blk;
+                                            playerMap[teamName][playerName].tpm += isNaN(tpm) ? 0 : tpm;
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+            data.forEach(team => {
+                team.players.forEach(player => {
+                    const totals = playerMap[team.teamName]?.[player.name];
+                    if (totals && totals.gp > 0) {
+                        player.gp = totals.gp;
+                        player.ppg = Number((totals.pts / totals.gp).toFixed(1));
+                        player.reb = Number((totals.reb / totals.gp).toFixed(1));
+                        player.stl = Number((totals.stl / totals.gp).toFixed(1));
+                        player.blk = Number((totals.blk / totals.gp).toFixed(1));
+                        player.tpm = Number((totals.tpm / totals.gp).toFixed(1));
+                    } else {
+                        player.gp = 0;
+                        player.ppg = '-';
+                        player.reb = '-';
+                        player.stl = '-';
+                        player.blk = '-';
+                        player.tpm = '-';
+                    }
+                });
+            });
+
+            return data;
+        }
+
+        function syncWithScheduleStorage() {
+            leagueData = getStoredLeagueData();
+            leagueData.forEach(team => {
+                team.wins = 0;
+                team.losses = 0;
+                team.ppgTeam = 0;
+                team.oppPpg = 0;
+            });
+
+            const computed = computeTeamStats();
+            leagueData.forEach(team => {
+                if (computed[team.teamName]) {
+                    team.wins = computed[team.teamName].wins;
+                    team.losses = computed[team.teamName].losses;
+                    let totalGamesPlayed = team.wins + team.losses;
+                    if (totalGamesPlayed > 0) {
+                        team.ppgTeam = Number((computed[team.teamName].ptsFor / totalGamesPlayed).toFixed(1));
+                        team.oppPpg = Number((computed[team.teamName].ptsAgainst / totalGamesPlayed).toFixed(1));
+                    }
+                }
+            });
+
+            aggregatePlayerStats(leagueData);
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            ['standings', 'leaders', 'players'].forEach(t => {
+                const btn = document.getElementById(`btn-${t}`);
+                if (btn) {
+                    if (t === tabId) {
+                        btn.className = "px-2.5 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold transition bg-orange-500 text-white shadow-sm whitespace-nowrap shrink-0";
+                    } else {
+                        btn.className = "px-2.5 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition text-zinc-400 hover:text-white whitespace-nowrap shrink-0";
+                    }
+                }
+            });
+
+            if (tabId === 'standings') {
+                renderStandings();
+            } else if (tabId === 'leaders') {
+                renderLeaderboards('ppg');
+            } else if (tabId === 'players') {
+                initTeamRostersView();
+            }
+        }
+
+        function calculatePct(wins, losses) {
+            const total = wins + losses;
+            if (total === 0) return ".000";
+            const pct = wins / total;
+            return pct === 1 ? "1.000" : pct.toFixed(3).replace(/^0/, '');
+        }
+
+        function renderStandings() {
+            syncWithScheduleStorage();
+            
+            const sorted = [...leagueData].sort((a, b) => {
+                const winPctA = (a.wins + a.losses) > 0 ? a.wins / (a.wins + a.losses) : 0;
+                const winPctB = (b.wins + b.losses) > 0 ? b.wins / (b.wins + b.losses) : 0;
+                if (winPctB !== winPctA) return winPctB - winPctA;
+                if (b.wins !== a.wins) return b.wins - a.wins;
+
+                const diffA = Math.round((a.ppgTeam - a.oppPpg) * (a.wins + a.losses));
+                const diffB = Math.round((b.ppgTeam - b.oppPpg) * (b.wins + b.losses));
+                if (diffB !== diffA) return diffB - diffA;
+
+                const totalPtsA = Math.round(a.ppgTeam * (a.wins + a.losses));
+                const totalPtsB = Math.round(b.ppgTeam * (b.wins + b.losses));
+                return totalPtsB - totalPtsA;
+            });
+
+            const tbody = document.getElementById('standings-table-body');
+            tbody.innerHTML = '';
+
+            sorted.forEach((team, idx) => {
+                const totalGames = team.wins + team.losses;
+                const recordStr = `${team.wins}-${team.losses}`;
+                const pct = calculatePct(team.wins, team.losses);
+                const diff = Math.round((team.ppgTeam - team.oppPpg) * totalGames);
+                const diffStr = diff > 0 ? `+${diff}` : diff;
+                const totalPts = Math.round(team.ppgTeam * totalGames);
+
+                // Insert the dotted red line separator between rank 8 and rank 9 (index 7 and 8)
+                if (idx === 8) {
+                    let separatorRow = document.createElement('tr');
+                    separatorRow.innerHTML = `
+                        <td colspan="6" class="p-0">
+                            <div class="relative flex items-center justify-center my-1">
+                                <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                                    <div class="w-full border-t border-dashed border-rose-500/80"></div>
+                                </div>
+                                <div class="relative bg-zinc-900 px-3 py-0.5 rounded-full border border-rose-500/30 text-[10px] font-semibold text-rose-400 uppercase tracking-widest shadow-sm">
+                                    Brink of Elimination
+                                </div>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(separatorRow);
+                }
+
+                let row = document.createElement('tr');
+                row.className = "hover:bg-zinc-800/35 transition-colors";
+                
+                // Bubble coloring logic: Top 8 get green, bottom 2 get red
+                let bubbleColor = idx < 8 ? 'bg-emerald-500' : 'bg-rose-500';
+
+                row.innerHTML = `
+                    <td class="p-3 text-center text-zinc-500 font-semibold">${idx + 1}</td>
+                    <td class="p-3 font-bold text-zinc-200 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full ${totalGames > 0 ? bubbleColor : 'bg-zinc-600'}"></span>
+                        ${team.teamName}
+                    </td>
+                    <td class="p-3 text-center font-semibold">${recordStr}</td>
+                    <td class="p-3 text-center text-zinc-400 font-semibold">${pct}</td>
+                    <td class="p-3 text-center font-bold ${diff > 0 ? 'text-emerald-400' : (diff < 0 ? 'text-rose-400' : 'text-zinc-400')}">${diffStr}</td>
+                    <td class="p-3 text-center font-semibold">${totalPts}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderLeaderboards(statKey) {
+            syncWithScheduleStorage();
+            const statTitles = { ppg: 'PPG', reb: 'REB', stl: 'STL', blk: 'BLK', tpm: '3PM' };
+            document.getElementById('leaderboard-stat-header').innerText = statTitles[statKey];
+
+            let allPlayers = [];
+            leagueData.forEach(team => {
+                team.players.forEach(player => {
+                    const val = player[statKey];
+                    if (player.gp > 0 && val !== undefined && val !== null && val !== '-') {
+                        allPlayers.push({ ...player, teamName: team.teamName });
+                    }
+                });
+            });
+
+            allPlayers.sort((a, b) => Number(b[statKey]) - Number(a[statKey]));
+            const top10 = allPlayers.slice(0, 10);
+
+            const tbody = document.getElementById('leaderboard-table-body');
+            tbody.innerHTML = '';
+
+            if (top10.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-zinc-500 italic">No player stats recorded yet.</td></tr>`;
+                return;
+            }
+
+            top10.forEach((player, idx) => {
+                let row = document.createElement('tr');
+                row.className = "hover:bg-zinc-800/30 transition-colors";
+                
+                let medalBadge = '';
+                if (idx === 0) medalBadge = '👑 ';
+                else if (idx === 1) medalBadge = '🥈 ';
+                else if (idx === 2) medalBadge = '🥉 ';
+
+                const statValFormatted = Number(player[statKey]).toFixed(1);
+
+                row.innerHTML = `
+                    <td class="p-3 text-center font-mono font-semibold text-zinc-500">${idx + 1}</td>
+                    <td class="p-3 font-bold text-zinc-200">${medalBadge}<span onclick="openPlayerModal('${player.name.replace(/'/g, "\\'")}')" class="hover:text-orange-400 hover:underline cursor-pointer transition">${player.name}</span></td>
+                    <td class="p-3 text-zinc-400 text-xs">${player.teamName}</td>
+                    <td class="p-3 text-right pr-6 font-mono font-bold text-zinc-200 text-sm">${statValFormatted}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function initTeamRostersView() {
+            syncWithScheduleStorage();
+            const select = document.getElementById('filter-team-select');
+            if (select.options.length <= 1) {
+                leagueData.forEach(team => {
+                    let opt = document.createElement('option');
+                    opt.value = team.teamName;
+                    opt.innerText = team.teamName;
+                    select.appendChild(opt);
+                });
+            }
+            renderTeamRosters();
+        }
+
+        function renderTeamRosters() {
+            const selectedTeam = document.getElementById('filter-team-select').value;
+            const searchQuery = document.getElementById('filter-player-input').value.toLowerCase().trim();
+
+            const container = document.getElementById('team-rosters-container');
+            container.innerHTML = '';
+
+            let filteredTeams = leagueData.filter(team => selectedTeam === 'ALL' || team.teamName === selectedTeam);
+
+            const formatStat = (val) => (val !== undefined && val !== null && val !== '-') ? Number(val).toFixed(1) : '-';
+            const formatGP = (val) => (val !== undefined && val !== null && val !== 0 && val !== '-') ? val : '-';
+
+            filteredTeams.forEach(team => {
+                let filteredPlayers = team.players.filter(player => !searchQuery || player.name.toLowerCase().includes(searchQuery));
+
+                if (filteredPlayers.length === 0) return;
+
+                let teamCard = document.createElement('div');
+                teamCard.className = "bg-zinc-900/40 border border-zinc-800/60 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md";
+                
+                let playerRowsHtml = '';
+                filteredPlayers.forEach(p => {
+                    let nameDisplay = `<span onclick="openPlayerModal('${p.name.replace(/'/g, "\\'")}')" class="text-zinc-100 hover:text-orange-400 hover:underline cursor-pointer transition font-bold">${p.name}</span>`;
+                    if (p.role === 'Captain') {
+                        nameDisplay += `<span class="bg-orange-500/10 text-orange-400 border border-orange-500/20 text-[10px] px-1.5 py-0.5 rounded font-bold ml-1.5">Captain</span>`;
+                    }
+
+                    playerRowsHtml += `
+                        <tr class="hover:bg-zinc-800/30 transition-colors">
+                            <td class="py-3 px-4 font-semibold text-zinc-200 w-2/5">${nameDisplay}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-400 text-xs w-[10%]">${formatGP(p.gp)}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-300 text-xs w-[10%]">${formatStat(p.ppg)}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-300 text-xs w-[10%]">${formatStat(p.reb)}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-300 text-xs w-[10%]">${formatStat(p.stl)}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-300 text-xs w-[10%]">${formatStat(p.blk)}</td>
+                            <td class="py-3 px-2 text-center font-mono text-zinc-300 text-xs pr-4 w-[10%]">${formatStat(p.tpm)}</td>
+                        </tr>
+                    `;
+                });
+
+                teamCard.innerHTML = `
+                    <div class="py-3 px-4 border-b border-zinc-800/60 flex justify-between items-center bg-zinc-900/20">
+                        <h3 class="text-xs font-bold text-zinc-200 tracking-wide">${team.teamName}</h3>
+                        <span class="text-[11px] font-mono text-zinc-400">Record: <strong class="text-zinc-200">${team.wins}-${team.losses}</strong></span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs table-fixed">
+                            <thead>
+                                <tr class="bg-zinc-950/40 text-zinc-500 border-b border-zinc-800/60 text-[11px] uppercase tracking-wider font-semibold">
+                                    <th class="py-2.5 px-4 w-2/5">Player Name</th>
+                                    <th class="py-2.5 px-2 text-center w-[10%]">GP</th>
+                                    <th class="py-2.5 px-2 text-center w-[10%]">PPG</th>
+                                    <th class="py-2.5 px-2 text-center w-[10%]">REB</th>
+                                    <th class="py-2.5 px-2 text-center w-[10%]">STL</th>
+                                    <th class="py-2.5 px-2 text-center w-[10%]">BLK</th>
+                                    <th class="py-2.5 px-2 text-center pr-4 w-[10%]">3PM</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-800/30">
+                                ${playerRowsHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.appendChild(teamCard);
+            });
+        }
+
+        (async function bootstrap() {
+            await loadGameData();
+            renderStandings();
+        })();
+    
+})();
+</script>
+
+    <!-- Shared "Player Career Stats" popup: past-season data + open/close logic
+         (also used by previousseasons.html). Loaded last since it only reacts to
+         onclick="openPlayerModal(...)" calls, and reads this page's `leagueData`
+         to add the live, in-progress season on top of the archived ones. -->
+    </div>
+    <script src="/assets/js/router.js" defer></script>
+</body>
+</html>
