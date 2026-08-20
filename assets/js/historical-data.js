@@ -33,12 +33,12 @@
                         { rank: 2, name: "Rehan Azam", team: "Medina", val: 18.4 },
                         { rank: 3, name: "Adil Abidi", team: "Mashhad", val: 17.0 },
                         { rank: 4, name: "Mohsin Jaffery", team: "Samarra", val: 15.4 },
-                        { rank: 5, name: "Mohammad Zaidi", team: "Mecca", val: 12.4 },
-                        { rank: 6, name: "Muhammad Munir", team: "Kadhimiya", val: 12.4 },
-                        { rank: 7, name: "Ali Ladak", team: "Najaf", val: 12.4 },
-                        { rank: 8, name: "Syed Daniyal", team: "Mecca", val: 11.8 },
-                        { rank: 9, name: "Ali Abidi", team: "Samarra", val: 11.7 },
-                        { rank: 10, name: "Mohammad Naqvi", team: "Mashhad", val: 11.0 }
+                        { rank: 5, name: "Hasnain Zaidi", team: "Qom", val: 13.0 },
+                        { rank: 6, name: "Mohammad Zaidi", team: "Mecca", val: 12.4 },
+                        { rank: 7, name: "Muhammad Munir", team: "Kadhimiya", val: 12.4 },
+                        { rank: 8, name: "Ali Ladak", team: "Najaf", val: 12.4 },
+                        { rank: 9, name: "Syed Daniyal", team: "Mecca", val: 11.8 },
+                        { rank: 10, name: "Ali Abidi", team: "Samarra", val: 11.7 },
                     ],
                     stlblk: [
                         { rank: 1, name: "Ayaz Haider", team: "Kadhimiya", val: 3.7 },
@@ -197,15 +197,15 @@
                     ],
                     stlblk: [
                         { rank: 1, name: "Syed Noeshare", team: "Kings", val: 4.0 },
-                        { rank: 2, name: "Haider Zaidi", team: "Bucks", val: 2.6 },
-                        { rank: 3, name: "Mohsin Jaffery", team: "Nuggets", val: 2.8 },
+                        { rank: 2, name: "Mohsin Jaffery", team: "Nuggets", val: 2.7 },
+                        { rank: 3, name: "Haider Zaidi", team: "Bucks", val: 2.6 },
                         { rank: 4, name: "Saif Hussain", team: "Nets", val: 2.6 },
-                        { rank: 5, name: "Abbas Aslam", team: "Bucks", val: 2.1 },
+                        { rank: 5, name: "Hussain Khan", team: "Jazz", val: 2.4 },
                         { rank: 6, name: "Ali Zaidi", team: "Pistons", val: 2.3 },
-                        { rank: 7, name: "Hussain Khan", team: "Jazz", val: 2.5 },
-                        { rank: 8, name: "Ali Abbas Naqvi", team: "Nuggets", val: 2.0 },
-                        { rank: 9, name: "Zargham Syed", team: "Heat", val: 1.5 },
-                        { rank: 10, name: "Hasan Ahmad", team: "Nuggets", val: 2.3 }
+                        { rank: 7, name: "Abbas Aslam", team: "Bucks", val: 2.1 },
+                        { rank: 8, name: "Hasnain Zaidi", team: "Bucks", val: 2.1 },
+                        { rank: 9, name: "Ali Abbas Naqvi", team: "Nuggets", val: 2.0 },
+                        { rank: 10, name: "Hussan Ali", team: "Rockets", val: 2.0 }
                     ],
                     tpm: [
                         { rank: 1, name: "Abbas Aslam", team: "Bucks", val: 6.4 },
