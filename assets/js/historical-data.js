@@ -29,7 +29,7 @@
                         { rank: 10, name: "Taqi Hussain", team: "Qom", val: 18.3 }
                     ],
                     reb: [
-                        { rank: 1, name: "Ayaz Haider", team: "Kadhimiya", val: 19.1 },
+                        { rank: 1, name: "Ayaz Haider", team: "Kadhimiya", val: 19.0 },
                         { rank: 2, name: "Rehan Azam", team: "Medina", val: 18.4 },
                         { rank: 3, name: "Adil Abidi", team: "Mashhad", val: 17.0 },
                         { rank: 4, name: "Mohsin Jaffery", team: "Samarra", val: 15.4 },
