@@ -41,9 +41,9 @@
                         { rank: 10, name: "Mohammad Naqvi", team: "Mashhad", val: 11.0 }
                     ],
                     stlblk: [
-                        { rank: 1, name: "Hussan Ali", team: "Mashhad", val: 4.6 },
-                        { rank: 2, name: "Ayaz Haider", team: "Kadhimiya", val: 3.7 },
-                        { rank: 3, name: "Mohsin Jaffery", team: "Samarra", val: 3.3 },
+                        { rank: 1, name: "Ayaz Haider", team: "Kadhimiya", val: 3.7 },
+                        { rank: 2, name: "Mohsin Jaffery", team: "Samarra", val: 3.3 },
+                        { rank: 3, name: "Hussan Ali", team: "Mashhad", val: 2.6 },
                         { rank: 4, name: "Hadi Naqvi", team: "Qom", val: 2.5 },
                         { rank: 5, name: "Hasan Ahmad", team: "Medina", val: 2.4 },
                         { rank: 6, name: "Imran Ladak", team: "Najaf", val: 2.4 },
