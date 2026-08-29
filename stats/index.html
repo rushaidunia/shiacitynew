@@ -513,7 +513,6 @@
         }
 
         let leagueData = getStoredLeagueData();
-        window.leagueData = leagueData;
 
         function aggregatePlayerStats(data) {
             const schedule = getScheduleData();
@@ -586,7 +585,6 @@
 
         function syncWithScheduleStorage() {
             leagueData = getStoredLeagueData();
-            window.leagueData = leagueData;
             leagueData.forEach(team => {
                 team.wins = 0;
                 team.losses = 0;
