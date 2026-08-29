@@ -8,40 +8,40 @@
           "court": "Court 1",
           "team1": "Azadars",
           "team2": "Ghazis",
-          "s1": null,
-          "s2": null
+          "s1": 51,
+          "s2": 61
         },
         {
           "time": "9:00-10:00 PM",
           "court": "Court 2",
           "team1": "Intifada",
           "team2": "House of Hyder",
-          "s1": null,
-          "s2": null
+          "s1": 56,
+          "s2": 59
         },
         {
           "time": "9:00-10:00 PM",
           "court": "Court 3",
           "team1": "bWood",
           "team2": "The Resistance",
-          "s1": null,
-          "s2": null
+          "s1": 52,
+          "s2": 49
         },
         {
           "time": "10:00-11:00 PM",
           "court": "Court 1",
           "team1": "313 Wolves",
           "team2": "Jabal",
-          "s1": null,
-          "s2": null
+          "s1": 72,
+          "s2": 63
         },
         {
           "time": "10:00-11:00 PM",
           "court": "Court 2",
           "team1": "Benchwarmers",
           "team2": "Unc Time",
-          "s1": null,
-          "s2": null
+          "s1": 66,
+          "s2": 69
         }
       ]
     },
@@ -410,198 +410,198 @@
     "w0_g0": {
       "Azadars": {
         "Ali Zaidi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "6",
+          "reb": "8",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "0"
         },
         "Murtaza Hussain": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "13",
+          "reb": "2",
+          "stl": "2",
+          "blk": "0",
+          "tpm": "1"
         },
         "Hashim Shah": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "25",
+          "reb": "5",
+          "stl": "1",
+          "blk": "2",
+          "tpm": "7"
         },
         "Hassan Mujtaba Kazmi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "0",
+          "reb": "5",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "0"
         },
         "Hani Zahid": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "7",
+          "reb": "5",
+          "stl": "1",
+          "blk": "1",
+          "tpm": "0"
         },
         "Abbas Khan": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "0",
+          "reb": "0",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
         }
       },
       "Ghazis": {
         "Syed Daniyal": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "18",
+          "reb": "17",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "0"
         },
         "Abbas Aslam": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "26",
+          "reb": "3",
+          "stl": "3",
+          "blk": "0",
+          "tpm": "2"
         },
         "Syed Ale Hassan": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "3",
+          "reb": "10",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "0"
         },
         "Zulfiqar Hussain": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "2",
+          "reb": "1",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "0"
         },
         "Irtaza Hassan": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "6",
+          "reb": "1",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "2"
         },
         "Ali Asghar Rizvi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "6",
+          "reb": "0",
+          "stl": "1",
+          "blk": "1",
+          "tpm": "2"
         }
       }
     },
     "w0_g2": {
       "bWood": {
         "Ali Abbas Naqvi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "17",
+          "reb": "16",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "5"
         },
         "Hadi Naqvi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "24",
+          "reb": "7",
+          "stl": "3",
+          "blk": "1",
+          "tpm": "2"
         },
         "Syed Noeshare": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "1",
+          "reb": "4",
+          "stl": "0",
+          "blk": "1",
+          "tpm": "0"
         },
         "Asim Abidi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "7",
+          "reb": "1",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "0"
         },
         "Abbas Naqvi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "1",
+          "reb": "3",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "0"
         },
         "Zeeshan Hussain": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "2",
+          "reb": "1",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
         }
       },
       "The Resistance": {
         "Mo Naqvi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "0",
+          "reb": "9",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "0"
         },
         "Zulfiqar Rizvi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "29",
+          "reb": "10",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "6"
         },
         "Ammad Mehdi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "20",
+          "reb": "9",
+          "stl": "2",
+          "blk": "0",
+          "tpm": "3"
         },
         "Rehan Azam": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "0",
+          "reb": "10",
+          "stl": "0",
+          "blk": "1",
+          "tpm": "0"
         },
         "Shan Ali": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "0",
+          "reb": "4",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
         },
         "Turab Hussain": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "0",
+          "reb": "0",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
         }
       }
     },
     "w0_g1": {
       "Intifada": {
         "Hussan Ali": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "16",
+          "reb": "5",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "3"
         },
         "Ayaz Haider": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "28",
+          "reb": "23",
+          "stl": "2",
+          "blk": "1",
+          "tpm": "0"
         },
         "Hasan Ahmad": {
           "pts": "-",
@@ -611,55 +611,55 @@
           "tpm": "-"
         },
         "Mohammad Naqvi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "8",
+          "reb": "3",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "0"
         },
         "Hyder Khan": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "2",
+          "reb": "1",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
         },
         "Shayan Jafri": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "2",
+          "reb": "1",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
         }
       },
       "House of Hyder": {
         "Zain Jafri": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "21",
+          "reb": "0",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "5"
         },
         "Mohsin Jaffery": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "22",
+          "reb": "12",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "1"
         },
         "Imran Zaidi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "7",
+          "reb": "5",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
         },
         "Mohammad Zaidi": {
-          "pts": "-",
-          "reb": "-",
-          "stl": "-",
-          "blk": "-",
-          "tpm": "-"
+          "pts": "9",
+          "reb": "12",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "1"
         },
         "Abbas Syed": {
           "pts": "-",
@@ -669,6 +669,96 @@
           "tpm": "-"
         },
         "Hussain Shah": {
+          "pts": "0",
+          "reb": "0",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
+        }
+      }
+    },
+    "w0_g4": {
+      "Benchwarmers": {
+        "Hasnain Zaidi": {
+          "pts": "18",
+          "reb": "14",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "3"
+        },
+        "Turab Kazim": {
+          "pts": "26",
+          "reb": "13",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
+        },
+        "AJ Hussain": {
+          "pts": "10",
+          "reb": "10",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "2"
+        },
+        "Tamseel Raza": {
+          "pts": "9",
+          "reb": "3",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "3"
+        },
+        "Zain Hussain": {
+          "pts": "3",
+          "reb": "3",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
+        },
+        "Kumail Jafri": {
+          "pts": "0",
+          "reb": "0",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
+        }
+      },
+      "Unc Time": {
+        "Imran Ladak": {
+          "pts": "16",
+          "reb": "8",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
+        },
+        "Ali Ladak": {
+          "pts": "27",
+          "reb": "11",
+          "stl": "2",
+          "blk": "0",
+          "tpm": "3"
+        },
+        "Hussain Khan": {
+          "pts": "14",
+          "reb": "18",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "3"
+        },
+        "Hamza Rizvi": {
+          "pts": "8",
+          "reb": "0",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "2"
+        },
+        "Ameer Abidi": {
+          "pts": "4",
+          "reb": "1",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
+        },
+        "Jazib Mustafa": {
           "pts": "-",
           "reb": "-",
           "stl": "-",
@@ -676,7 +766,97 @@
           "tpm": "-"
         }
       }
+    },
+    "w0_g3": {
+      "313 Wolves": {
+        "Taqi Hussain": {
+          "pts": "22",
+          "reb": "7",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "4"
+        },
+        "Hamza Syed": {
+          "pts": "9",
+          "reb": "11",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
+        },
+        "Sibtain Raza": {
+          "pts": "16",
+          "reb": "10",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "4"
+        },
+        "Ali Naqvi": {
+          "pts": "13",
+          "reb": "12",
+          "stl": "3",
+          "blk": "0",
+          "tpm": "1"
+        },
+        "Zain Ali": {
+          "pts": "12",
+          "reb": "6",
+          "stl": "0",
+          "blk": "1",
+          "tpm": "2"
+        },
+        "Khushnood Rizvi": {
+          "pts": "0",
+          "reb": "0",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
+        }
+      },
+      "Jabal": {
+        "Danesh Jafri": {
+          "pts": "16",
+          "reb": "5",
+          "stl": "1",
+          "blk": "0",
+          "tpm": "4"
+        },
+        "Adil Abidi": {
+          "pts": "9",
+          "reb": "17",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "1"
+        },
+        "Ali Abidi": {
+          "pts": "13",
+          "reb": "10",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "0"
+        },
+        "Asoo Rizvi": {
+          "pts": "-",
+          "reb": "-",
+          "stl": "-",
+          "blk": "-",
+          "tpm": "-"
+        },
+        "Zain Ali Shah": {
+          "pts": "20",
+          "reb": "5",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "4"
+        },
+        "Abbas Rizvi": {
+          "pts": "5",
+          "reb": "5",
+          "stl": "0",
+          "blk": "0",
+          "tpm": "1"
+        }
+      }
     }
   },
-  "exportedAt": "2026-08-19T21:24:38.605Z"
+  "exportedAt": "2026-08-29T05:52:43.502Z"
 }
