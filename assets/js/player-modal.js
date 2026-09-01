@@ -122,20 +122,24 @@
         summaryPills.innerHTML = '';
 
         let seasonLogs = [];
+        // Career averages are weighted by games played per season (total stat
+        // production across all seasons, divided by total games played) rather
+        // than a plain average of each season's average — so a 1-game season
+        // doesn't count as heavily as a 7-game season.
         let totalPpg = 0, totalReb = 0, totalStl = 0, totalBlk = 0, totalTpm = 0;
-        let seasonsCount = 0;
+        let totalGp = 0;
 
         // Current, in-progress season (stats.html only) goes on top.
         const currentLog = getCurrentSeasonLog(playerName);
         if (currentLog) {
             seasonLogs.push(currentLog);
-            if (typeof currentLog.ppg === 'number') {
-                totalPpg += currentLog.ppg;
-                totalReb += currentLog.reb;
-                totalStl += currentLog.stl;
-                totalBlk += currentLog.blk;
-                totalTpm += currentLog.tpm;
-                seasonsCount++;
+            if (typeof currentLog.ppg === 'number' && typeof currentLog.gp === 'number' && currentLog.gp > 0) {
+                totalPpg += currentLog.ppg * currentLog.gp;
+                totalReb += currentLog.reb * currentLog.gp;
+                totalStl += currentLog.stl * currentLog.gp;
+                totalBlk += currentLog.blk * currentLog.gp;
+                totalTpm += currentLog.tpm * currentLog.gp;
+                totalGp += currentLog.gp;
             }
         }
 
@@ -157,13 +161,13 @@
                             tpm: p.tpm
                         });
 
-                        if (typeof p.ppg === 'number') {
-                            totalPpg += p.ppg;
-                            totalReb += p.reb;
-                            totalStl += p.stl;
-                            totalBlk += p.blk;
-                            totalTpm += p.tpm;
-                            seasonsCount++;
+                        if (typeof p.ppg === 'number' && typeof p.gp === 'number' && p.gp > 0) {
+                            totalPpg += p.ppg * p.gp;
+                            totalReb += p.reb * p.gp;
+                            totalStl += p.stl * p.gp;
+                            totalBlk += p.blk * p.gp;
+                            totalTpm += p.tpm * p.gp;
+                            totalGp += p.gp;
                         }
                     }
                 });
@@ -190,11 +194,11 @@
             });
         }
 
-        const avgPpg = seasonsCount > 0 ? (totalPpg / seasonsCount).toFixed(1) : '0.0';
-        const avgReb = seasonsCount > 0 ? (totalReb / seasonsCount).toFixed(1) : '0.0';
-        const avgStl = seasonsCount > 0 ? (totalStl / seasonsCount).toFixed(1) : '0.0';
-        const avgBlk = seasonsCount > 0 ? (totalBlk / seasonsCount).toFixed(1) : '0.0';
-        const avgTpm = seasonsCount > 0 ? (totalTpm / seasonsCount).toFixed(1) : '0.0';
+        const avgPpg = totalGp > 0 ? (totalPpg / totalGp).toFixed(1) : '0.0';
+        const avgReb = totalGp > 0 ? (totalReb / totalGp).toFixed(1) : '0.0';
+        const avgStl = totalGp > 0 ? (totalStl / totalGp).toFixed(1) : '0.0';
+        const avgBlk = totalGp > 0 ? (totalBlk / totalGp).toFixed(1) : '0.0';
+        const avgTpm = totalGp > 0 ? (totalTpm / totalGp).toFixed(1) : '0.0';
 
         summaryPills.innerHTML = `
             <div class="bg-zinc-950/60 border border-zinc-800/80 rounded-xl p-2.5 sm:p-3 flex flex-col items-center justify-center text-center">
