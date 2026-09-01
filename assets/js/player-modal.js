@@ -78,12 +78,15 @@
         });
     });
 
-    // Label for the live, in-progress season. Update this by hand at the start
-    // of each new season (e.g. change to 'Season 5' when Season 5 begins).
-    const CURRENT_SEASON_LABEL = 'Season 4';
-
+    // Tries to label the live/current season using the page's own <h1 id="page-title">
+    // (e.g. "Season 4 Statistics & Standings" -> "Season 4"). Falls back to "Current Season".
     function getCurrentSeasonLabel() {
-        return CURRENT_SEASON_LABEL;
+        const titleEl = document.getElementById('page-title');
+        if (titleEl) {
+            const match = titleEl.innerText.match(/Season\s+\d+/i);
+            if (match) return match[0];
+        }
+        return 'Current Season';
     }
 
     // Pulls the current, in-progress season's line for this player from the page's
