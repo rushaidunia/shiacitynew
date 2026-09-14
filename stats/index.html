@@ -336,9 +336,9 @@
                     { name: "Imran Ladak", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
                     { name: "Ali Ladak", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
                     { name: "Hussain Khan", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
-                    { name: "Hamza Rizvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
                     { name: "Ameer Abidi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
-                    { name: "Jazib Mustafa", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                    { name: "Muiz Hashmi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Abbas Khan", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
                 ]
             },
             {
@@ -391,9 +391,9 @@
                     { name: "Ali Zaidi", role: "Captain", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
                     { name: "Murtaza Hussain", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
                     { name: "Hashim Shah", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
-                    { name: "Muiz Hashmi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
                     { name: "Hani Zahid", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
-                    { name: "Abbas Khan", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
+                    { name: "Hamza Rizvi", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' },
+                    { name: "Jazib Mustafa", role: "Player", gp: 0, ppg: '-', reb: '-', stl: '-', blk: '-', tpm: '-' }
                 ]
             },
             {
@@ -519,11 +519,16 @@
             const schedule = getScheduleData();
             const allBoxScores = getStoredGameBoxScores();
 
-            let playerMap = {};
+            // Keyed by PLAYER NAME only (not team+name). This is what lets a
+            // trade happen mid-season without erasing anyone's pre-trade
+            // production: a player's games from their old team still get
+            // counted toward their season totals, wherever they're rostered now.
+            let playerTotals = {};
             data.forEach(team => {
-                playerMap[team.teamName] = {};
                 team.players.forEach(p => {
-                    playerMap[team.teamName][p.name] = { gp: 0, pts: 0, reb: 0, stl: 0, blk: 0, tpm: 0 };
+                    if (!playerTotals[p.name]) {
+                        playerTotals[p.name] = { gp: 0, pts: 0, reb: 0, stl: 0, blk: 0, tpm: 0 };
+                    }
                 });
             });
 
@@ -534,9 +539,9 @@
                     if (gameBox) {
                         [game.team1, game.team2].forEach(teamName => {
                             const teamBox = gameBox[teamName];
-                            if (teamBox && playerMap[teamName]) {
+                            if (teamBox) {
                                 Object.keys(teamBox).forEach(playerName => {
-                                    if (playerMap[teamName][playerName]) {
+                                    if (playerTotals[playerName]) {
                                         const pStats = teamBox[playerName];
                                         const pts = Number(pStats.pts);
                                         const reb = Number(pStats.reb);
@@ -545,12 +550,12 @@
                                         const tpm = Number(pStats.tpm);
 
                                         if (!isNaN(pts) || !isNaN(reb) || !isNaN(stl) || !isNaN(blk) || !isNaN(tpm)) {
-                                            playerMap[teamName][playerName].gp += 1;
-                                            playerMap[teamName][playerName].pts += isNaN(pts) ? 0 : pts;
-                                            playerMap[teamName][playerName].reb += isNaN(reb) ? 0 : reb;
-                                            playerMap[teamName][playerName].stl += isNaN(stl) ? 0 : stl;
-                                            playerMap[teamName][playerName].blk += isNaN(blk) ? 0 : blk;
-                                            playerMap[teamName][playerName].tpm += isNaN(tpm) ? 0 : tpm;
+                                            playerTotals[playerName].gp += 1;
+                                            playerTotals[playerName].pts += isNaN(pts) ? 0 : pts;
+                                            playerTotals[playerName].reb += isNaN(reb) ? 0 : reb;
+                                            playerTotals[playerName].stl += isNaN(stl) ? 0 : stl;
+                                            playerTotals[playerName].blk += isNaN(blk) ? 0 : blk;
+                                            playerTotals[playerName].tpm += isNaN(tpm) ? 0 : tpm;
                                         }
                                     }
                                 });
@@ -562,7 +567,7 @@
 
             data.forEach(team => {
                 team.players.forEach(player => {
-                    const totals = playerMap[team.teamName]?.[player.name];
+                    const totals = playerTotals[player.name];
                     if (totals && totals.gp > 0) {
                         player.gp = totals.gp;
                         player.ppg = Number((totals.pts / totals.gp).toFixed(1));
