@@ -274,8 +274,8 @@
       "date": "October 9, 2026",
       "games": [
         {
-          "time": "9:00-10:00 PM",
-          "court": "Court 1",
+          "time": "10:00-11:00 PM",
+          "court": "Court 3",
           "team1": "Intifada",
           "team2": "The Resistance",
           "s1": null,
@@ -283,7 +283,7 @@
         },
         {
           "time": "9:00-10:00 PM",
-          "court": "Court 2",
+          "court": "Court 1",
           "team1": "Jabal",
           "team2": "Ghazis",
           "s1": null,
@@ -291,7 +291,7 @@
         },
         {
           "time": "9:00-10:00 PM",
-          "court": "Court 3",
+          "court": "Court 2",
           "team1": "Azadars",
           "team2": "Benchwarmers",
           "s1": null,
@@ -327,8 +327,8 @@
           "s2": null
         },
         {
-          "time": "9:00-10:00 PM",
-          "court": "Court 2",
+          "time": "10:00-11:00 PM",
+          "court": "Court 3",
           "team1": "313 Wolves",
           "team2": "Benchwarmers",
           "s1": null,
@@ -336,7 +336,7 @@
         },
         {
           "time": "9:00-10:00 PM",
-          "court": "Court 3",
+          "court": "Court 2",
           "team1": "Intifada",
           "team2": "Jabal",
           "s1": null,
@@ -364,8 +364,8 @@
       "date": "October 30, 2026",
       "games": [
         {
-          "time": "9:00-10:00 PM",
-          "court": "Court 1",
+          "time": "10:00-11:00 PM",
+          "court": "Court 3",
           "team1": "Benchwarmers",
           "team2": "House of Hyder",
           "s1": null,
@@ -373,7 +373,7 @@
         },
         {
           "time": "9:00-10:00 PM",
-          "court": "Court 2",
+          "court": "Court 1",
           "team1": "The Resistance",
           "team2": "Azadars",
           "s1": null,
@@ -381,7 +381,7 @@
         },
         {
           "time": "9:00-10:00 PM",
-          "court": "Court 3",
+          "court": "Court 2",
           "team1": "Intifada",
           "team2": "Ghazis",
           "s1": null,
