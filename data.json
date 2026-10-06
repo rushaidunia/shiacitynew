@@ -20,14 +20,6 @@
           "s2": 59
         },
         {
-          "time": "9:00-10:00 PM",
-          "court": "Court 3",
-          "team1": "bWood",
-          "team2": "The Resistance",
-          "s1": 52,
-          "s2": 49
-        },
-        {
           "time": "10:00-11:00 PM",
           "court": "Court 1",
           "team1": "313 Wolves",
@@ -42,6 +34,14 @@
           "team2": "Unc Time",
           "s1": 66,
           "s2": 69
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "bWood",
+          "team2": "The Resistance",
+          "s1": 52,
+          "s2": 49
         }
       ]
     },
@@ -65,14 +65,6 @@
           "s2": 51
         },
         {
-          "time": "9:00-10:00 PM",
-          "court": "Court 3",
-          "team1": "Jabal",
-          "team2": "House of Hyder",
-          "s1": 47,
-          "s2": 52
-        },
-        {
           "time": "10:00-11:00 PM",
           "court": "Court 1",
           "team1": "The Resistance",
@@ -87,6 +79,14 @@
           "team2": "Benchwarmers",
           "s1": 69,
           "s2": 45
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "Jabal",
+          "team2": "House of Hyder",
+          "s1": 47,
+          "s2": 52
         }
       ]
     },
@@ -110,14 +110,6 @@
           "s2": 66
         },
         {
-          "time": "9:00-10:00 PM",
-          "court": "Court 3",
-          "team1": "Ghazis",
-          "team2": "House of Hyder",
-          "s1": 58,
-          "s2": 52
-        },
-        {
           "time": "10:00-11:00 PM",
           "court": "Court 1",
           "team1": "Intifada",
@@ -132,6 +124,14 @@
           "team2": "Unc Time",
           "s1": 44,
           "s2": 55
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "Ghazis",
+          "team2": "House of Hyder",
+          "s1": 58,
+          "s2": 52
         }
       ]
     },
@@ -155,14 +155,6 @@
           "s2": 65
         },
         {
-          "time": "9:00-10:00 PM",
-          "court": "Court 3",
-          "team1": "The Resistance",
-          "team2": "Benchwarmers",
-          "s1": 59,
-          "s2": 61
-        },
-        {
           "time": "10:00-11:00 PM",
           "court": "Court 1",
           "team1": "bWood",
@@ -177,6 +169,14 @@
           "team2": "Unc Time",
           "s1": 50,
           "s2": 44
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "The Resistance",
+          "team2": "Benchwarmers",
+          "s1": 59,
+          "s2": 61
         }
       ]
     },
@@ -200,14 +200,6 @@
           "s2": 52
         },
         {
-          "time": "9:00-10:00 PM",
-          "court": "Court 3",
-          "team1": "313 Wolves",
-          "team2": "Azadars",
-          "s1": 58,
-          "s2": 54
-        },
-        {
           "time": "10:00-11:00 PM",
           "court": "Court 1",
           "team1": "House of Hyder",
@@ -222,6 +214,14 @@
           "team2": "Ghazis",
           "s1": 44,
           "s2": 58
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "313 Wolves",
+          "team2": "Azadars",
+          "s1": 58,
+          "s2": 54
         }
       ]
     },
@@ -245,14 +245,6 @@
           "s2": 48
         },
         {
-          "time": "9:00-10:00 PM",
-          "court": "Court 3",
-          "team1": "bWood",
-          "team2": "313 Wolves",
-          "s1": 93,
-          "s2": 53
-        },
-        {
           "time": "10:00-11:00 PM",
           "court": "Court 1",
           "team1": "Intifada",
@@ -267,20 +259,20 @@
           "team2": "House of Hyder",
           "s1": 54,
           "s2": 72
+        },
+        {
+          "time": "9:00-10:00 PM",
+          "court": "Court 3",
+          "team1": "bWood",
+          "team2": "313 Wolves",
+          "s1": 93,
+          "s2": 53
         }
       ]
     },
     {
       "date": "October 9, 2026",
       "games": [
-        {
-          "time": "10:00-11:00 PM",
-          "court": "Court 3",
-          "team1": "Intifada",
-          "team2": "The Resistance",
-          "s1": null,
-          "s2": null
-        },
         {
           "time": "9:00-10:00 PM",
           "court": "Court 1",
@@ -312,6 +304,14 @@
           "team2": "House of Hyder",
           "s1": null,
           "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 3",
+          "team1": "Intifada",
+          "team2": "The Resistance",
+          "s1": null,
+          "s2": null
         }
       ]
     },
@@ -323,14 +323,6 @@
           "court": "Court 1",
           "team1": "bWood",
           "team2": "Ghazis",
-          "s1": null,
-          "s2": null
-        },
-        {
-          "time": "10:00-11:00 PM",
-          "court": "Court 3",
-          "team1": "313 Wolves",
-          "team2": "Benchwarmers",
           "s1": null,
           "s2": null
         },
@@ -357,20 +349,20 @@
           "team2": "Unc Time",
           "s1": null,
           "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 3",
+          "team1": "313 Wolves",
+          "team2": "Benchwarmers",
+          "s1": null,
+          "s2": null
         }
       ]
     },
     {
       "date": "October 30, 2026",
       "games": [
-        {
-          "time": "10:00-11:00 PM",
-          "court": "Court 3",
-          "team1": "Benchwarmers",
-          "team2": "House of Hyder",
-          "s1": null,
-          "s2": null
-        },
         {
           "time": "9:00-10:00 PM",
           "court": "Court 1",
@@ -400,6 +392,14 @@
           "court": "Court 2",
           "team1": "bWood",
           "team2": "Jabal",
+          "s1": null,
+          "s2": null
+        },
+        {
+          "time": "10:00-11:00 PM",
+          "court": "Court 3",
+          "team1": "Benchwarmers",
+          "team2": "House of Hyder",
           "s1": null,
           "s2": null
         }
