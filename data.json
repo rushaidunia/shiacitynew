@@ -278,8 +278,8 @@
           "court": "Court 1",
           "team1": "Jabal",
           "team2": "Ghazis",
-          "s1": 300,
-          "s2": 20
+          "s1": null,
+          "s2": null
         },
         {
           "time": "9:00-10:00 PM",
@@ -3108,5 +3108,5 @@
       }
     }
   },
-  "exportedAt": "2026-10-07T04:08:43.311Z"
+  "exportedAt": "2026-10-07T04:12:23.111Z"
 }
