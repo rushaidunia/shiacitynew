@@ -497,7 +497,7 @@
         }
       }
     },
-    "w0_g2": {
+    "w0_g4": {
       "bWood": {
         "Ali Abbas Naqvi": {
           "pts": "17",
@@ -677,7 +677,7 @@
         }
       }
     },
-    "w0_g4": {
+    "w0_g3": {
       "Benchwarmers": {
         "Hasnain Zaidi": {
           "pts": "18",
@@ -767,7 +767,7 @@
         }
       }
     },
-    "w0_g3": {
+    "w0_g2": {
       "313 Wolves": {
         "Taqi Hussain": {
           "pts": "22",
@@ -1037,7 +1037,7 @@
         }
       }
     },
-    "w1_g2": {
+    "w1_g4": {
       "Jabal": {
         "Danesh Jafri": {
           "pts": "20",
@@ -1127,7 +1127,7 @@
         }
       }
     },
-    "w1_g3": {
+    "w1_g2": {
       "The Resistance": {
         "Mo Naqvi": {
           "pts": "-",
@@ -1217,7 +1217,7 @@
         }
       }
     },
-    "w1_g4": {
+    "w1_g3": {
       "Intifada": {
         "Hussan Ali": {
           "pts": "10",
@@ -1397,7 +1397,7 @@
         }
       }
     },
-    "w2_g3": {
+    "w2_g2": {
       "Intifada": {
         "Hussan Ali": {
           "pts": "11",
@@ -1577,7 +1577,7 @@
         }
       }
     },
-    "w2_g2": {
+    "w2_g4": {
       "Ghazis": {
         "Syed Daniyal": {
           "pts": "19",
@@ -1667,7 +1667,7 @@
         }
       }
     },
-    "w2_g4": {
+    "w2_g3": {
       "Jabal": {
         "Danesh Jafri": {
           "pts": "-",
@@ -1757,7 +1757,7 @@
         }
       }
     },
-    "w3_g4": {
+    "w3_g3": {
       "Ghazis": {
         "Syed Daniyal": {
           "pts": "24",
@@ -1847,7 +1847,7 @@
         }
       }
     },
-    "w3_g3": {
+    "w3_g2": {
       "bWood": {
         "Ali Abbas Naqvi": {
           "pts": "20",
@@ -1937,7 +1937,7 @@
         }
       }
     },
-    "w3_g2": {
+    "w3_g4": {
       "The Resistance": {
         "Mo Naqvi": {
           "pts": "6",
@@ -2387,7 +2387,7 @@
         }
       }
     },
-    "w4_g2": {
+    "w4_g4": {
       "313 Wolves": {
         "Taqi Hussain": {
           "pts": "20",
@@ -2477,7 +2477,7 @@
         }
       }
     },
-    "w4_g3": {
+    "w4_g2": {
       "House of Hyder": {
         "Zain Jafri": {
           "pts": "8",
@@ -2567,7 +2567,7 @@
         }
       }
     },
-    "w4_g4": {
+    "w4_g3": {
       "The Resistance": {
         "Mo Naqvi": {
           "pts": "4",
@@ -2837,7 +2837,7 @@
         }
       }
     },
-    "w5_g2": {
+    "w5_g4": {
       "bWood": {
         "Ali Abbas Naqvi": {
           "pts": "45",
@@ -2927,7 +2927,7 @@
         }
       }
     },
-    "w5_g3": {
+    "w5_g2": {
       "Intifada": {
         "Hussan Ali": {
           "pts": "12",
@@ -3017,7 +3017,7 @@
         }
       }
     },
-    "w5_g4": {
+    "w5_g3": {
       "Azadars": {
         "Ali Zaidi": {
           "pts": "22",
@@ -3108,5 +3108,5 @@
       }
     }
   },
-  "exportedAt": "2026-10-07T04:12:23.111Z"
+  "exportedAt": "2026-10-03T08:03:40.087Z"
 }
