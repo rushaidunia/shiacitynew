@@ -468,8 +468,8 @@
                     let hasValidScore = (g.s1 !== null && g.s2 !== null && !isNaN(s1) && !isNaN(s2) && g.s1 !== '' && g.s2 !== '');
 
                     if (hasValidScore) {
-                        if (!teamStats[g.team1]) teamStats[g.team1] = { wins: 0, losses: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
-                        if (!teamStats[g.team2]) teamStats[g.team2] = { wins: 0, losses: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
+                        if (!teamStats[g.team1]) teamStats[g.team1] = { wins: 0, losses: 0, ties: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
+                        if (!teamStats[g.team2]) teamStats[g.team2] = { wins: 0, losses: 0, ties: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
 
                         teamStats[g.team1].ptsFor += s1;
                         teamStats[g.team1].ptsAgainst += s2;
@@ -485,6 +485,10 @@
                         } else if (s2 > s1) {
                             teamStats[g.team2].wins++;
                             teamStats[g.team1].losses++;
+                        } else {
+                            // equal scores = tie (half a win in win %)
+                            teamStats[g.team1].ties++;
+                            teamStats[g.team2].ties++;
                         }
                     }
                 });
@@ -595,6 +599,7 @@
             leagueData.forEach(team => {
                 team.wins = 0;
                 team.losses = 0;
+                team.ties = 0;
                 team.ppgTeam = 0;
                 team.oppPpg = 0;
             });
@@ -604,7 +609,8 @@
                 if (computed[team.teamName]) {
                     team.wins = computed[team.teamName].wins;
                     team.losses = computed[team.teamName].losses;
-                    let totalGamesPlayed = team.wins + team.losses;
+                    team.ties = computed[team.teamName].ties;
+                    let totalGamesPlayed = team.wins + team.losses + team.ties;
                     if (totalGamesPlayed > 0) {
                         team.ppgTeam = Number((computed[team.teamName].ptsFor / totalGamesPlayed).toFixed(1));
                         team.oppPpg = Number((computed[team.teamName].ptsAgainst / totalGamesPlayed).toFixed(1));
@@ -639,10 +645,21 @@
             }
         }
 
-        function calculatePct(wins, losses) {
-            const total = wins + losses;
+        // Win % counts a tie as half a win: (W + 0.5T) / (W + L + T)
+        function winPctValue(wins, losses, ties) {
+            const total = wins + losses + ties;
+            return total > 0 ? (wins + 0.5 * ties) / total : 0;
+        }
+
+        // Shows W-L normally; the tie count only appears for a team that has one (e.g. 6-1-1)
+        function formatRecord(team) {
+            return team.ties > 0 ? `${team.wins}-${team.losses}-${team.ties}` : `${team.wins}-${team.losses}`;
+        }
+
+        function calculatePct(wins, losses, ties) {
+            const total = wins + losses + ties;
             if (total === 0) return ".000";
-            const pct = wins / total;
+            const pct = (wins + 0.5 * ties) / total;
             return pct === 1 ? "1.000" : pct.toFixed(3).replace(/^0/, '');
         }
 
@@ -650,17 +667,17 @@
             syncWithScheduleStorage();
             
             const sorted = [...leagueData].sort((a, b) => {
-                const winPctA = (a.wins + a.losses) > 0 ? a.wins / (a.wins + a.losses) : 0;
-                const winPctB = (b.wins + b.losses) > 0 ? b.wins / (b.wins + b.losses) : 0;
+                const winPctA = winPctValue(a.wins, a.losses, a.ties);
+                const winPctB = winPctValue(b.wins, b.losses, b.ties);
                 if (winPctB !== winPctA) return winPctB - winPctA;
                 if (b.wins !== a.wins) return b.wins - a.wins;
 
-                const diffA = Math.round((a.ppgTeam - a.oppPpg) * (a.wins + a.losses));
-                const diffB = Math.round((b.ppgTeam - b.oppPpg) * (b.wins + b.losses));
+                const diffA = Math.round((a.ppgTeam - a.oppPpg) * (a.wins + a.losses + a.ties));
+                const diffB = Math.round((b.ppgTeam - b.oppPpg) * (b.wins + b.losses + b.ties));
                 if (diffB !== diffA) return diffB - diffA;
 
-                const totalPtsA = Math.round(a.ppgTeam * (a.wins + a.losses));
-                const totalPtsB = Math.round(b.ppgTeam * (b.wins + b.losses));
+                const totalPtsA = Math.round(a.ppgTeam * (a.wins + a.losses + a.ties));
+                const totalPtsB = Math.round(b.ppgTeam * (b.wins + b.losses + b.ties));
                 return totalPtsB - totalPtsA;
             });
 
@@ -668,9 +685,9 @@
             tbody.innerHTML = '';
 
             sorted.forEach((team, idx) => {
-                const totalGames = team.wins + team.losses;
-                const recordStr = `${team.wins}-${team.losses}`;
-                const pct = calculatePct(team.wins, team.losses);
+                const totalGames = team.wins + team.losses + team.ties;
+                const recordStr = formatRecord(team);
+                const pct = calculatePct(team.wins, team.losses, team.ties);
                 const diff = Math.round((team.ppgTeam - team.oppPpg) * totalGames);
                 const diffStr = diff > 0 ? `+${diff}` : diff;
                 const totalPts = Math.round(team.ppgTeam * totalGames);
@@ -818,7 +835,7 @@
                 teamCard.innerHTML = `
                     <div class="py-3 px-4 border-b border-zinc-800/60 flex justify-between items-center bg-zinc-900/20">
                         <h3 class="text-xs font-bold text-zinc-200 tracking-wide">${team.teamName}</h3>
-                        <span class="text-[11px] font-mono text-zinc-400">Record: <strong class="text-zinc-200">${team.wins}-${team.losses}</strong></span>
+                        <span class="text-[11px] font-mono text-zinc-400">Record: <strong class="text-zinc-200">${formatRecord(team)}</strong></span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-xs table-fixed">

@@ -393,8 +393,8 @@
                     let hasValidScore = (g.s1 !== null && g.s2 !== null && !isNaN(s1) && !isNaN(s2) && g.s1 !== '' && g.s2 !== '');
                     
                     if (hasValidScore) {
-                        if (!teamStats[g.team1]) teamStats[g.team1] = { wins: 0, losses: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
-                        if (!teamStats[g.team2]) teamStats[g.team2] = { wins: 0, losses: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
+                        if (!teamStats[g.team1]) teamStats[g.team1] = { wins: 0, losses: 0, ties: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
+                        if (!teamStats[g.team2]) teamStats[g.team2] = { wins: 0, losses: 0, ties: 0, ptsFor: 0, ptsAgainst: 0, diff: 0 };
 
                         teamStats[g.team1].ptsFor += s1;
                         teamStats[g.team1].ptsAgainst += s2;
@@ -410,6 +410,10 @@
                         } else if (s2 > s1) {
                             teamStats[g.team2].wins++;
                             teamStats[g.team1].losses++;
+                        } else {
+                            // equal scores = tie (counts as half a win in win %)
+                            teamStats[g.team1].ties++;
+                            teamStats[g.team2].ties++;
                         }
                     }
                 });
@@ -473,12 +477,14 @@
                             let s2 = game.s2;
                             let t1Win = s1 > s2;
                             let t2Win = s2 > s1;
+                            let isTie = (s1 === s2);
+                            const tieBadge = `<span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">T</span>`;
 
                             let t1Color = t1Win ? 'text-emerald-400 font-bold' : (t2Win ? 'text-rose-400 font-medium' : 'text-zinc-100 font-bold');
-                            let t1Badge = t1Win ? `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">W</span>` : (t2Win ? `<span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">L</span>` : '');
+                            let t1Badge = t1Win ? `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">W</span>` : (t2Win ? `<span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">L</span>` : (isTie ? tieBadge : ''));
 
                             let t2Color = t2Win ? 'text-emerald-400 font-bold' : (t1Win ? 'text-rose-400 font-medium' : 'text-zinc-100 font-bold');
-                            let t2Badge = t2Win ? `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">W</span>` : (t1Win ? `<span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">L</span>` : '');
+                            let t2Badge = t2Win ? `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">W</span>` : (t1Win ? `<span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] px-1.5 py-0.5 rounded font-mono font-bold">L</span>` : (isTie ? tieBadge : ''));
 
                             team1DisplayHTML = `
                                 <div class="flex items-center justify-end gap-2 w-[42%]">
@@ -566,13 +572,15 @@
             const t2Badge = document.getElementById('modal-team2-score-badge');
 
             if (hasScore) {
+                const isTie = (game.s1 === game.s2);
+                const tieCls = 'bg-amber-500/10 text-amber-400 border-amber-500/20';
                 let t1Win = game.s1 > game.s2;
-                t1Badge.className = `text-[11px] font-bold px-3 py-1 rounded-lg border font-mono ${t1Win ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'}`;
+                t1Badge.className = `text-[11px] font-bold px-3 py-1 rounded-lg border font-mono ${isTie ? tieCls : (t1Win ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20')}`;
                 t1Badge.innerText = `Final Score: ${game.s1}`;
                 t1Badge.style.display = 'inline-block';
 
                 let t2Win = game.s2 > game.s1;
-                t2Badge.className = `text-[11px] font-bold px-3 py-1 rounded-lg border font-mono ${t2Win ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20'}`;
+                t2Badge.className = `text-[11px] font-bold px-3 py-1 rounded-lg border font-mono ${isTie ? tieCls : (t2Win ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border-rose-500/20')}`;
                 t2Badge.innerText = `Final Score: ${game.s2}`;
                 t2Badge.style.display = 'inline-block';
             } else {
