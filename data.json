@@ -286,7 +286,7 @@
           "court": "Court 2",
           "team1": "Azadars",
           "team2": "Benchwarmers",
-          "s1": 57,
+          "s1": 61,
           "s2": 71
         },
         {
@@ -302,8 +302,8 @@
           "court": "Court 2",
           "team1": "313 Wolves",
           "team2": "House of Hyder",
-          "s1": 55,
-          "s2": 62
+          "s1": 62,
+          "s2": 68
         },
         {
           "time": "10:00-11:00 PM",
@@ -3200,7 +3200,7 @@
     "w6_g1": {
       "Azadars": {
         "Ali Zaidi": {
-          "pts": "9",
+          "pts": "13",
           "reb": "8",
           "stl": "3",
           "blk": "0",
@@ -3290,7 +3290,7 @@
     "w6_g3": {
       "313 Wolves": {
         "Taqi Hussain": {
-          "pts": "18",
+          "pts": "21",
           "reb": "4",
           "stl": "5",
           "blk": "0",
@@ -3304,14 +3304,14 @@
           "tpm": "0"
         },
         "Sibtain Raza": {
-          "pts": "22",
+          "pts": "24",
           "reb": "19",
           "stl": "1",
           "blk": "3",
           "tpm": "0"
         },
         "Ali Naqvi": {
-          "pts": "10",
+          "pts": "12",
           "reb": "12",
           "stl": "2",
           "blk": "0",
@@ -3334,7 +3334,7 @@
       },
       "House of Hyder": {
         "Zain Jafri": {
-          "pts": "13",
+          "pts": "18",
           "reb": "7",
           "stl": "3",
           "blk": "0",
@@ -3362,7 +3362,7 @@
           "tpm": "2"
         },
         "Abbas Syed": {
-          "pts": "13",
+          "pts": "14",
           "reb": "9",
           "stl": "0",
           "blk": "0",
@@ -3468,5 +3468,5 @@
       }
     }
   },
-  "exportedAt": "2026-10-10T09:26:59.161Z"
+  "exportedAt": "2026-10-10T17:04:36.174Z"
 }
