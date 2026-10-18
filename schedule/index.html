@@ -26,6 +26,45 @@
         .animate-pulse-glow {
             animation: pulse-glow 5s ease-in-out infinite;
         }
+
+        /* ---------- Playoff bracket ---------- */
+        .pb-root { display: flex; flex-direction: column; gap: 14px; }
+        .pb-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+        .pb-title { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fb923c; }
+
+        .pb-rounds { display: flex; align-items: stretch; gap: 32px; }
+        .pb-round { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; }
+        .pb-round-head { min-height: 74px; margin-bottom: 6px; padding: 10px 12px; background: #09090b; border: 1px solid #27272a; border-top: 3px solid var(--accent, #f97316); border-radius: 12px; }
+        .pb-round-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #71717a; }
+        .pb-round-date { margin-top: 2px; font-size: 14px; font-weight: 800; color: #f4f4f5; }
+        .pb-round-time { margin-top: 2px; font-size: 11px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: #a1a1aa; }
+
+        .pb-slots { flex: 1; display: flex; flex-direction: column; }
+        .pb-slot { flex: 1; position: relative; display: flex; align-items: center; padding: 8px 0; }
+        .pb-card { position: relative; width: 100%; background: #09090b; border: 1px solid #27272a; border-radius: 12px; }
+        .pb-round-final .pb-card { border-color: rgba(16,185,129,.40); }
+
+        /* connector lines: stub out of every slot, a vertical join on the first slot of each pair, and a stub into the next round */
+        .pb-slot::after { content: ''; position: absolute; left: 100%; top: 50%; width: 16px; border-top: 1px solid #3f3f46; }
+        .pb-slot:nth-child(odd)::before { content: ''; position: absolute; left: calc(100% + 16px); top: 50%; height: 100%; border-left: 1px solid #3f3f46; }
+        .pb-round:last-child .pb-slot::before, .pb-round:last-child .pb-slot::after { display: none; }
+        .pb-round:not(:first-child) .pb-card::before { content: ''; position: absolute; right: 100%; top: 50%; width: 16px; border-top: 1px solid #3f3f46; }
+
+        .pb-team { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 9px 10px; }
+        .pb-team + .pb-team { border-top: 1px solid #27272a; }
+        .pb-seed { flex: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: #27272a; color: #d4d4d8; font-size: 10px; font-weight: 800; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+        .pb-name { flex: 1; min-width: 0; font-size: 12px; font-weight: 700; color: #e4e4e7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .pb-rec { flex: none; font-size: 11px; font-weight: 700; color: #a1a1aa; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+        .pb-tbd .pb-seed { background: transparent; border: 1px dashed #3f3f46; color: #52525b; }
+        .pb-tbd .pb-name { font-weight: 600; font-style: italic; color: #71717a; }
+
+
+        @media (max-width: 759px) {
+            .pb-rounds { flex-direction: column; gap: 20px; }
+            .pb-round-head { min-height: 0; }
+            .pb-slot { padding: 5px 0; }
+            .pb-slot::before, .pb-slot::after, .pb-card::before { display: none !important; }
+        }
     </style>
 </head>
 <body class="bg-[#09090b] text-zinc-100 min-h-screen selection:bg-orange-500 selection:text-white pb-12 flex flex-col justify-between">
@@ -75,8 +114,13 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-2">
             <div>
                 <h1 class="text-xl font-extrabold tracking-tight text-zinc-100">Season 4 Matchup Schedule</h1>
-                <p class="text-xs text-zinc-400 mt-0.5">Official basketball schedule, court assignments, and playoff roadmap. Click any match to view its specific independent box score.</p>
+                <p class="text-xs text-zinc-400 mt-0.5">Official basketball schedule, court assignments, and the live playoff bracket. Click any match to view its specific independent box score.</p>
             </div>
+        </div>
+
+        <!-- Live Playoff Bracket (rendered from the current standings) -->
+        <div class="bg-zinc-900 border border-zinc-800/80 rounded-2xl p-6 shadow-xl shadow-black/40 backdrop-blur-sm flex flex-col gap-4">
+            <div id="playoff-bracket" class="pb-root" aria-label="Playoff bracket"></div>
         </div>
 
         <!-- Advanced Filter Toolbar -->
@@ -113,40 +157,6 @@
         </div>
 
         <div id="games-container" class="flex flex-col gap-3"></div>
-
-        <!-- Postseason & Playoff Roadmap Section -->
-        <div class="mt-4 bg-zinc-900 border border-zinc-800/80 rounded-2xl p-6 shadow-xl shadow-black/40 backdrop-blur-sm flex flex-col gap-4">
-            <div class="flex items-center gap-2">
-                <span class="text-orange-400 text-base">🏆</span>
-                <h2 class="text-xs font-extrabold text-orange-400 tracking-wider uppercase">Postseason & Playoff Roadmap</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-zinc-950 border border-zinc-800/80 rounded-xl p-4 relative overflow-hidden flex flex-col justify-between">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-500"></div>
-                    <div>
-                        <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-1">Round 1 (Top 8)</span>
-                        <h3 class="text-sm font-extrabold text-zinc-100">November 6, 2026</h3>
-                    </div>
-                    <p class="text-xs font-mono text-zinc-400 mt-4">9:00 PM – 12:00 AM</p>
-                </div>
-                <div class="bg-zinc-950 border border-zinc-800/80 rounded-xl p-4 relative overflow-hidden flex flex-col justify-between">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500"></div>
-                    <div>
-                        <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-1">Semi-Finals</span>
-                        <h3 class="text-sm font-extrabold text-zinc-100">November 20, 2026</h3>
-                    </div>
-                    <p class="text-xs font-mono text-zinc-400 mt-4">9:00 PM – 11:00 PM</p>
-                </div>
-                <div class="bg-zinc-950 border border-zinc-800/80 rounded-xl p-4 relative overflow-hidden flex flex-col justify-between">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500"></div>
-                    <div>
-                        <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block mb-1">Championship</span>
-                        <h3 class="text-sm font-extrabold text-zinc-100">November 27, 2026</h3>
-                    </div>
-                    <p class="text-xs font-mono text-zinc-400 mt-4">9:00 PM – 11:00 PM</p>
-                </div>
-            </div>
-        </div>
 
     </main>
 
@@ -722,12 +732,128 @@
             tbody.innerHTML = html;
         }
 
+
+        // ===================== LIVE PLAYOFF BRACKET =====================
+        // Edit these if the playoff dates/times change.
+        const PLAYOFF_ROUNDS = [
+            { label: 'Round 1 (Top 8)', date: 'November 6, 2026',  time: '9:00 PM – 12:00 AM', accent: '#f59e0b' },
+            { label: 'Semi-Finals',     date: 'November 20, 2026', time: '9:00 PM – 11:00 PM', accent: '#f97316' },
+            { label: 'Championship',    date: 'November 27, 2026', time: '9:00 PM – 11:00 PM', accent: '#10b981' }
+        ];
+        const PLAYOFF_SPOTS = 8;
+        // Same team order as the roster lists (used only as the last-resort tiebreak, exactly like the stats page).
+        const PLAYOFF_TEAM_ORDER = ['Intifada', 'bWood', 'House of Hyder', 'Unc Time', 'Ghazis', 'Jabal', 'The Resistance', 'Benchwarmers', 'Azadars', '313 Wolves'];
+
+        function pbEscape(s) {
+            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // Mirrors the Stats & Standings page: win % (tie = half a win) -> wins -> point differential -> total points.
+        function computePlayoffStandings() {
+            const schedule = getScheduleData();
+            const stats = {};
+            const ensure = (name) => (stats[name] = stats[name] || { teamName: name, wins: 0, losses: 0, ties: 0, ptsFor: 0, ptsAgainst: 0 });
+            PLAYOFF_TEAM_ORDER.forEach(ensure);
+
+            let gamesPlayed = 0;
+            let weeksRemaining = 0;
+            schedule.forEach(week => {
+                let weekDone = true;
+                week.games.forEach(g => {
+                    ensure(g.team1); ensure(g.team2);
+                    const s1 = Number(g.s1), s2 = Number(g.s2);
+                    const valid = g.s1 !== null && g.s2 !== null && g.s1 !== undefined && g.s2 !== undefined &&
+                                  g.s1 !== '' && g.s2 !== '' && !isNaN(s1) && !isNaN(s2);
+                    if (!valid) { weekDone = false; return; }
+                    gamesPlayed++;
+                    stats[g.team1].ptsFor += s1; stats[g.team1].ptsAgainst += s2;
+                    stats[g.team2].ptsFor += s2; stats[g.team2].ptsAgainst += s1;
+                    if (s1 > s2) { stats[g.team1].wins++; stats[g.team2].losses++; }
+                    else if (s2 > s1) { stats[g.team2].wins++; stats[g.team1].losses++; }
+                    else { stats[g.team1].ties++; stats[g.team2].ties++; }
+                });
+                if (!weekDone) weeksRemaining++;
+            });
+
+            const rows = Object.keys(stats).map(name => {
+                const t = stats[name];
+                const gp = t.wins + t.losses + t.ties;
+                const ppg = gp > 0 ? Number((t.ptsFor / gp).toFixed(1)) : 0;
+                const opp = gp > 0 ? Number((t.ptsAgainst / gp).toFixed(1)) : 0;
+                return {
+                    teamName: name, wins: t.wins, losses: t.losses, ties: t.ties, gp: gp,
+                    pct: gp > 0 ? (t.wins + 0.5 * t.ties) / gp : 0,
+                    diff: Math.round((ppg - opp) * gp),
+                    total: Math.round(ppg * gp)
+                };
+            });
+            rows.sort((a, b) => (b.pct - a.pct) || (b.wins - a.wins) || (b.diff - a.diff) || (b.total - a.total));
+
+            const lastDate = schedule.length ? schedule[schedule.length - 1].date : '';
+            return { rows, gamesPlayed, weeksRemaining, lastDate };
+        }
+
+        function pbRecord(t) {
+            return t.ties > 0 ? `${t.wins}-${t.losses}-${t.ties}` : `${t.wins}-${t.losses}`;
+        }
+
+        function renderPlayoffBracket() {
+            const mount = document.getElementById('playoff-bracket');
+            if (!mount) return;
+
+            const { rows, gamesPlayed } = computePlayoffStandings();
+            const hasData = gamesPlayed > 0;
+
+            // seed n -> display info
+            const seed = (n) => {
+                const t = rows[n - 1];
+                return (t && hasData)
+                    ? { seed: n, name: t.teamName, rec: pbRecord(t) }
+                    : { seed: n, name: 'TBD', rec: '', tbd: true };
+            };
+            const winnerOf = (text) => ({ seed: '?', name: text, rec: '', tbd: true });
+
+            const teamRow = (t) => `
+                <div class="pb-team ${t.tbd ? 'pb-tbd' : ''}">
+                    <span class="pb-seed">${pbEscape(t.seed)}</span>
+                    <span class="pb-name" title="${pbEscape(t.name)}">${pbEscape(t.name)}</span>
+                    ${t.rec ? `<span class="pb-rec">${pbEscape(t.rec)}</span>` : ''}
+                </div>`;
+            const slot = (a, b) => `<div class="pb-slot"><div class="pb-card">${teamRow(a)}${teamRow(b)}</div></div>`;
+
+            // 1 vs 8, 4 vs 5, 3 vs 6, 2 vs 7  ->  (1/8 winner vs 4/5 winner), (3/6 winner vs 2/7 winner)  ->  final
+            const round1 = [[1, 8], [4, 5], [3, 6], [2, 7]].map(([hi, lo]) => slot(seed(hi), seed(lo))).join('');
+            const round2 = [
+                slot(winnerOf('Winner of 1 vs 8'), winnerOf('Winner of 4 vs 5')),
+                slot(winnerOf('Winner of 3 vs 6'), winnerOf('Winner of 2 vs 7'))
+            ].join('');
+            const round3 = slot(winnerOf('Winner of Semi-Final 1'), winnerOf('Winner of Semi-Final 2'));
+            const slotsByRound = [round1, round2, round3];
+
+            const roundsHTML = PLAYOFF_ROUNDS.map((r, i) => `
+                <div class="pb-round ${i === PLAYOFF_ROUNDS.length - 1 ? 'pb-round-final' : ''}">
+                    <div class="pb-round-head" style="--accent:${r.accent}">
+                        <div class="pb-round-label">${pbEscape(r.label)}</div>
+                        <div class="pb-round-date">${pbEscape(r.date)}</div>
+                        <div class="pb-round-time">${pbEscape(r.time)}</div>
+                    </div>
+                    <div class="pb-slots">${slotsByRound[i]}</div>
+                </div>`).join('');
+
+            mount.innerHTML = `
+                <div class="pb-head">
+                    <div class="pb-title"><span>🏆</span><span>Playoff Bracket</span></div>
+                </div>
+                <div class="pb-rounds">${roundsHTML}</div>`;
+        }
+
         (async function bootstrap() {
             await loadGameData();
             scheduleData = getScheduleData();
             exportStandingsToLocalStorage();
             initDateDropdown();
             applyFilters();
+            renderPlayoffBracket();
         })();
     
 })();
