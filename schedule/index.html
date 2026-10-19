@@ -26,45 +26,6 @@
         .animate-pulse-glow {
             animation: pulse-glow 5s ease-in-out infinite;
         }
-
-        /* ---------- Playoff bracket ---------- */
-        .pb-root { display: flex; flex-direction: column; gap: 14px; }
-        .pb-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
-        .pb-title { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fb923c; }
-
-        .pb-rounds { display: flex; align-items: stretch; gap: 32px; }
-        .pb-round { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; }
-        .pb-round-head { min-height: 74px; margin-bottom: 6px; padding: 10px 12px; background: #09090b; border: 1px solid #27272a; border-top: 3px solid var(--accent, #f97316); border-radius: 12px; }
-        .pb-round-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #71717a; }
-        .pb-round-date { margin-top: 2px; font-size: 14px; font-weight: 800; color: #f4f4f5; }
-        .pb-round-time { margin-top: 2px; font-size: 11px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: #a1a1aa; }
-
-        .pb-slots { flex: 1; display: flex; flex-direction: column; }
-        .pb-slot { flex: 1; position: relative; display: flex; align-items: center; padding: 8px 0; }
-        .pb-card { position: relative; width: 100%; background: #09090b; border: 1px solid #27272a; border-radius: 12px; }
-        .pb-round-final .pb-card { border-color: rgba(16,185,129,.40); }
-
-        /* connector lines: stub out of every slot, a vertical join on the first slot of each pair, and a stub into the next round */
-        .pb-slot::after { content: ''; position: absolute; left: 100%; top: 50%; width: 16px; border-top: 1px solid #3f3f46; }
-        .pb-slot:nth-child(odd)::before { content: ''; position: absolute; left: calc(100% + 16px); top: 50%; height: 100%; border-left: 1px solid #3f3f46; }
-        .pb-round:last-child .pb-slot::before, .pb-round:last-child .pb-slot::after { display: none; }
-        .pb-round:not(:first-child) .pb-card::before { content: ''; position: absolute; right: 100%; top: 50%; width: 16px; border-top: 1px solid #3f3f46; }
-
-        .pb-team { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 9px 10px; }
-        .pb-team + .pb-team { border-top: 1px solid #27272a; }
-        .pb-seed { flex: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: #27272a; color: #d4d4d8; font-size: 10px; font-weight: 800; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-        .pb-name { flex: 1; min-width: 0; font-size: 12px; font-weight: 700; color: #e4e4e7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .pb-rec { flex: none; font-size: 11px; font-weight: 700; color: #a1a1aa; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-        .pb-tbd .pb-seed { background: transparent; border: 1px dashed #3f3f46; color: #52525b; }
-        .pb-tbd .pb-name { font-weight: 600; font-style: italic; color: #71717a; }
-
-
-        @media (max-width: 759px) {
-            .pb-rounds { flex-direction: column; gap: 20px; }
-            .pb-round-head { min-height: 0; }
-            .pb-slot { padding: 5px 0; }
-            .pb-slot::before, .pb-slot::after, .pb-card::before { display: none !important; }
-        }
     </style>
 </head>
 <body class="bg-[#09090b] text-zinc-100 min-h-screen selection:bg-orange-500 selection:text-white pb-12 flex flex-col justify-between">
@@ -744,6 +705,49 @@
         // Same team order as the roster lists (used only as the last-resort tiebreak, exactly like the stats page).
         const PLAYOFF_TEAM_ORDER = ['Intifada', 'bWood', 'House of Hyder', 'Unc Time', 'Ghazis', 'Jabal', 'The Resistance', 'Benchwarmers', 'Azadars', '313 Wolves'];
 
+        // The bracket carries its own styling (instead of living in <head>) so it looks right however the page was loaded,
+        // including when the site's router swaps this page in without applying its <head> styles.
+        const PLAYOFF_BRACKET_CSS = `
+        /* ---------- Playoff bracket ---------- */
+        .pb-root { display: flex; flex-direction: column; gap: 14px; }
+        .pb-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+        .pb-title { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fb923c; }
+
+        .pb-rounds { display: flex; align-items: stretch; gap: 32px; }
+        .pb-round { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; }
+        .pb-round-head { min-height: 74px; margin-bottom: 6px; padding: 10px 12px; background: #09090b; border: 1px solid #27272a; border-top: 3px solid var(--accent, #f97316); border-radius: 12px; }
+        .pb-round-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #71717a; }
+        .pb-round-date { margin-top: 2px; font-size: 14px; font-weight: 800; color: #f4f4f5; }
+        .pb-round-time { margin-top: 2px; font-size: 11px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: #a1a1aa; }
+
+        .pb-slots { flex: 1; display: flex; flex-direction: column; }
+        .pb-slot { flex: 1; position: relative; display: flex; align-items: center; padding: 8px 0; }
+        .pb-card { position: relative; width: 100%; background: #09090b; border: 1px solid #27272a; border-radius: 12px; }
+        .pb-round-final .pb-card { border-color: rgba(16,185,129,.40); }
+
+        /* connector lines: stub out of every slot, a vertical join on the first slot of each pair, and a stub into the next round */
+        .pb-slot::after { content: ''; position: absolute; left: 100%; top: 50%; width: 16px; border-top: 1px solid #3f3f46; }
+        .pb-slot:nth-child(odd)::before { content: ''; position: absolute; left: calc(100% + 16px); top: 50%; height: 100%; border-left: 1px solid #3f3f46; }
+        .pb-round:last-child .pb-slot::before, .pb-round:last-child .pb-slot::after { display: none; }
+        .pb-round:not(:first-child) .pb-card::before { content: ''; position: absolute; right: 100%; top: 50%; width: 16px; border-top: 1px solid #3f3f46; }
+
+        .pb-team { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 9px 10px; }
+        .pb-team + .pb-team { border-top: 1px solid #27272a; }
+        .pb-seed { flex: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: #27272a; color: #d4d4d8; font-size: 10px; font-weight: 800; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+        .pb-name { flex: 1; min-width: 0; font-size: 12px; font-weight: 700; color: #e4e4e7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .pb-rec { flex: none; font-size: 11px; font-weight: 700; color: #a1a1aa; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+        .pb-tbd .pb-seed { background: transparent; border: 1px dashed #3f3f46; color: #52525b; }
+        .pb-tbd .pb-name { font-weight: 600; font-style: italic; color: #71717a; }
+
+
+        @media (max-width: 759px) {
+            .pb-rounds { flex-direction: column; gap: 20px; }
+            .pb-round-head { min-height: 0; }
+            .pb-slot { padding: 5px 0; }
+            .pb-slot::before, .pb-slot::after, .pb-card::before { display: none !important; }
+        }
+        `;
+
         function pbEscape(s) {
             return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
@@ -841,6 +845,7 @@
                 </div>`).join('');
 
             mount.innerHTML = `
+                <style>${PLAYOFF_BRACKET_CSS}</style>
                 <div class="pb-head">
                     <div class="pb-title"><span>🏆</span><span>Playoff Bracket</span></div>
                 </div>
